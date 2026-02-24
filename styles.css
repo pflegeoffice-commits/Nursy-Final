@@ -1451,3 +1451,213 @@ body[data-page="pflegeplanung"] .pp-empty{
 .pp-table .pp-col-date--right{text-align:right;}
 .pp-table tbody tr{cursor:pointer;}
 .pp-table tbody tr:hover{background:rgba(63,111,232,.06);}
+
+/* --------------------------------------------------------------------------
+   Pflegeplanung – Modals nach Skizze (Anamnese / Vorlagen / Frei definiert)
+   -------------------------------------------------------------------------- */
+
+html.pp-modal-open,
+html.pp-modal-open body{overflow:hidden;}
+
+#modalRoot:empty{display:none;}
+
+.pp-modal{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  background:rgba(6, 18, 41, .55);
+}
+
+.pp-modal__panel{
+  width:min(920px, calc(100% - 24px));
+  max-height:min(82vh, 980px);
+  overflow:hidden;
+  background:rgba(255,255,255,.98);
+  border-radius:18px;
+  box-shadow:0 20px 60px rgba(0,0,0,.25);
+  border:1px solid rgba(15, 23, 42, .08);
+  display:flex;
+  flex-direction:column;
+}
+
+.pp-modal__panel--wide{
+  width:min(1120px, calc(100% - 24px));
+}
+
+.pp-modal__header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:18px 18px 14px;
+  border-bottom:1px solid rgba(15, 23, 42, .08);
+}
+
+.pp-modal__title{
+  margin:0;
+  font-size:22px;
+  letter-spacing:.2px;
+}
+
+.pp-modal__close{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  border:1px solid rgba(15, 23, 42, .10);
+  background:#fff;
+  color:var(--muted);
+  cursor:pointer;
+  font-size:22px;
+  line-height:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.pp-modal__close:hover{background:rgba(63,111,232,.06); color:var(--text);}
+
+.pp-modal__body{
+  padding:16px 18px;
+  overflow:auto;
+}
+
+.pp-modal__footer{
+  padding:14px 18px 18px;
+  border-top:1px solid rgba(15, 23, 42, .08);
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:12px;
+}
+
+/* Buttons */
+.pp-btn{
+  border:1px solid rgba(63,111,232,.25);
+  background:#fff;
+  color:var(--text);
+  padding:12px 14px;
+  border-radius:14px;
+  font-weight:700;
+  cursor:pointer;
+  min-width:150px;
+}
+.pp-btn:hover{background:rgba(63,111,232,.06);}
+.pp-btn--ghost{border-color:rgba(15, 23, 42, .12); color:var(--text); background:#fff;}
+.pp-btn--primary{
+  border-color:rgba(63,111,232,.55);
+  background:linear-gradient(180deg, rgba(63,111,232,.18), rgba(63,111,232,.10));
+}
+
+/* Layout helpers */
+.pp-muted{color:var(--muted);}
+.pp-hint{margin:10px 0 0; color:var(--muted); font-size:13px;}
+
+.pp-modal__top{display:flex; flex-direction:column; gap:12px; margin-bottom:14px;}
+
+.pp-patientline{display:flex; gap:8px; align-items:baseline;}
+.pp-patientline--small{font-size:14px; margin-bottom:8px;}
+
+.pp-topgrid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:14px;
+  align-items:end;
+}
+.pp-topgrid--tight{gap:10px;}
+
+.pp-grid2{
+  display:grid;
+  grid-template-columns: 1.5fr .9fr;
+  gap:14px;
+  align-items:start;
+}
+.pp-grid2--free{grid-template-columns: 1.2fr .8fr;}
+
+.pp-card{
+  border:1px solid rgba(15, 23, 42, .10);
+  background:rgba(255,255,255,.92);
+  border-radius:16px;
+  padding:14px;
+}
+.pp-card__title{margin:0 0 10px; font-size:18px;}
+
+.pp-stack{display:flex; flex-direction:column; gap:10px;}
+
+/* Fields */
+.pp-field{display:flex; flex-direction:column; gap:6px;}
+.pp-label{font-size:13px; color:var(--muted); font-weight:700;}
+
+.pp-control{
+  width:100%;
+  border:1px solid rgba(63,111,232,.25);
+  border-radius:14px;
+  padding:12px 12px;
+  background:#fff;
+  font:inherit;
+  outline:none;
+}
+.pp-control:focus{border-color:rgba(63,111,232,.6); box-shadow:0 0 0 4px rgba(63,111,232,.10);}
+.pp-control--ta{resize:vertical; min-height:64px;}
+
+/* Table (scoped to modal) */
+.pp-modal .pp-table{
+  border:1px solid rgba(15, 23, 42, .10);
+  border-radius:14px;
+  overflow:hidden;
+  background:#fff;
+}
+
+.pp-modal .pp-table__head,
+.pp-modal .pp-table__row{
+  display:grid;
+  grid-template-columns: 44px 1.2fr 1fr 1fr;
+  gap:0;
+}
+
+.pp-modal .pp-table__head{
+  background:rgba(63,111,232,.06);
+  border-bottom:1px solid rgba(15, 23, 42, .08);
+}
+
+.pp-modal .pp-table__cell{
+  padding:12px 12px;
+  border-right:1px solid rgba(15, 23, 42, .06);
+  font-size:14px;
+}
+
+.pp-modal .pp-table__cell:last-child{border-right:none;}
+
+.pp-modal .pp-table__cell--check{display:flex; align-items:center; justify-content:center;}
+
+.pp-modal .pp-table__body .pp-table__row{
+  background:#fff;
+  border-bottom:1px solid rgba(15, 23, 42, .06);
+  cursor:pointer;
+}
+.pp-modal .pp-table__body .pp-table__row:last-child{border-bottom:none;}
+.pp-modal .pp-table__body .pp-table__row:hover{background:rgba(63,111,232,.04);}
+
+.pp-modal .pp-rowcheck{
+  width:18px;
+  height:18px;
+  accent-color: var(--primary);
+}
+
+/* Responsive */
+@media (max-width: 820px){
+  .pp-modal{padding:14px;}
+  .pp-modal__panel,
+  .pp-modal__panel--wide{width:calc(100% - 10px);}
+  .pp-grid2,
+  .pp-grid2--free{grid-template-columns: 1fr;}
+  .pp-topgrid{grid-template-columns: 1fr;}
+  .pp-btn{min-width:unset; flex:1;}
+  .pp-modal__footer{justify-content:stretch;}
+  .pp-modal .pp-table__head,
+  .pp-modal .pp-table__row{grid-template-columns: 44px 1fr;}
+  .pp-modal .pp-table__head .pp-table__cell:nth-child(n+3),
+  .pp-modal .pp-table__row .pp-table__cell:nth-child(n+3){display:none;}
+}
