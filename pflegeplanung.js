@@ -264,62 +264,7 @@
     const acceptBtn = qs('[data-accept]', modalEl);
     if (acceptBtn) {
       acceptBtn.addEventListener('click', () => {
-
-        const planBody = document.getElementById('planBody');
-        if (!planBody) {
-          closeModal();
-          return;
-        }
-
-        const checked = qsa('.pp-rowcheck:checked', modalEl);
-
-        // Checkbox-Übernahme (Anamnese / Vorlagen)
-        if (checked.length > 0) {
-          checked.forEach(cb => {
-            const row = cb.closest('.pp-table__row');
-            if (!row) return;
-
-            const cells = qsa('.pp-table__cell', row);
-            if (cells.length < 4) return;
-
-            const diagnose = cells[1].textContent.trim();
-            const massnahme = cells[2].textContent.trim();
-            const ziel = cells[3].textContent.trim();
-
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-              <td class="pp-date">${new Date().toLocaleDateString('de-DE')}</td>
-              <td>${diagnose}</td>
-              <td>${massnahme}</td>
-              <td>${ziel}</td>
-              <td class="pp-date pp-date--right">—</td>
-            `;
-
-            planBody.appendChild(tr);
-          });
-        } 
-        // Frei definierte Planung
-        else {
-          const textareas = qsa('textarea', modalEl);
-          if (textareas.length >= 3) {
-            const diagnose = textareas[0].value.trim();
-            const massnahme = textareas[1].value.trim();
-            const ziel = textareas[2].value.trim();
-
-            if (diagnose || massnahme || ziel) {
-              const tr = document.createElement('tr');
-              tr.innerHTML = `
-                <td class="pp-date">${new Date().toLocaleDateString('de-DE')}</td>
-                <td>${diagnose}</td>
-                <td>${massnahme}</td>
-                <td>${ziel}</td>
-                <td class="pp-date pp-date--right">—</td>
-              `;
-              planBody.appendChild(tr);
-            }
-          }
-        }
-
+        // Demo feedback
         acceptBtn.blur();
         closeModal();
       });
