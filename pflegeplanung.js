@@ -259,7 +259,6 @@
         qsa('.pp-rowcheck', modalEl).forEach((c) => (c.checked = true));
       });
     }
-
     // Accept
     const acceptBtn = qs('[data-accept]', modalEl);
     if (acceptBtn) {
@@ -270,6 +269,31 @@
           closeModal();
           return;
         }
+
+        // Frequenz + Evaluierung aus dem aktiven Modal lesen (je nach Dialog-ID)
+        const freqEl = qs('#ppFreq, #ppFreq2, #ppFreq3', modalEl);
+        const evalEl = qs('#ppEval, #ppEval2, #ppEval3', modalEl);
+
+        const freqValRaw = freqEl ? String(freqEl.value || '').trim() : '';
+        const evalValRaw = evalEl ? String(evalEl.value || '').trim() : '';
+
+        const freqVal = (freqValRaw && freqValRaw !== 'Bitte wählen') ? freqValRaw : '';
+        const evalVal = (evalValRaw && evalValRaw !== 'Bitte wählen') ? evalValRaw : '';
+
+        // Eval-Text -> Datum ableiten (für Spalte "Evaluation am")
+        function addDays(d, n){
+          const x = new Date(d.getTime());
+          x.setDate(x.getDate() + n);
+          return x;
+        }
+        const today = new Date();
+        const plannedStr = today.toLocaleDateString('de-DE');
+
+        let evalStr = '—';
+        if (evalVal === 'täglich') evalStr = addDays(today, 1).toLocaleDateString('de-DE');
+        else if (evalVal === 'alle 2 Tage') evalStr = addDays(today, 2).toLocaleDateString('de-DE');
+        else if (evalVal === 'wöchentlich') evalStr = addDays(today, 7).toLocaleDateString('de-DE');
+        else if (evalVal === 'bei Änderung') evalStr = 'bei Änderung';
 
         const checked = qsa('.pp-rowcheck:checked', modalEl);
 
@@ -283,37 +307,41 @@
             if (cells.length < 4) return;
 
             const diagnose = cells[1].textContent.trim();
-            const massnahme = cells[2].textContent.trim();
+            const massnahmeBase = cells[2].textContent.trim();
             const ziel = cells[3].textContent.trim();
+
+            const massnahme = freqVal ? `${massnahmeBase} (${freqVal})` : massnahmeBase;
 
             const tr = document.createElement('tr');
             tr.innerHTML = `
-              <td class="pp-date">${new Date().toLocaleDateString('de-DE')}</td>
+              <td class="pp-date">${plannedStr}</td>
               <td>${diagnose}</td>
               <td>${massnahme}</td>
               <td>${ziel}</td>
-              <td class="pp-date pp-date--right">—</td>
+              <td class="pp-date pp-date--right">${evalStr}</td>
             `;
 
             planBody.appendChild(tr);
           });
-        } 
+        }
         // Frei definierte Planung
         else {
           const textareas = qsa('textarea', modalEl);
           if (textareas.length >= 3) {
             const diagnose = textareas[0].value.trim();
-            const massnahme = textareas[1].value.trim();
+            const massnahmeBase = textareas[1].value.trim();
             const ziel = textareas[2].value.trim();
 
-            if (diagnose || massnahme || ziel) {
+            const massnahme = freqVal ? `${massnahmeBase} (${freqVal})` : massnahmeBase;
+
+            if (diagnose || massnahmeBase || ziel) {
               const tr = document.createElement('tr');
               tr.innerHTML = `
-                <td class="pp-date">${new Date().toLocaleDateString('de-DE')}</td>
+                <td class="pp-date">${plannedStr}</td>
                 <td>${diagnose}</td>
                 <td>${massnahme}</td>
                 <td>${ziel}</td>
-                <td class="pp-date pp-date--right">—</td>
+                <td class="pp-date pp-date--right">${evalStr}</td>
               `;
               planBody.appendChild(tr);
             }
@@ -324,7 +352,7 @@
         closeModal();
       });
     }
-  }
+}
 
   function openModal(kind) {
     const root = qs('#modalRoot');
