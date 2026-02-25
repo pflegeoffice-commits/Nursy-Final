@@ -10,18 +10,35 @@
   const qsa = (sel, el = document) => Array.from(el.querySelectorAll(sel));
 
   const demoTemplates = [
-    { symptom: 'Eingeschränkte Mobilität / unsicherer Gang', massnahme: 'Mobilisation & Gehtraining', ziel: 'Sicheres Gehen' },
-    { symptom: 'Teilweise Unterstützung bei Körperpflege', massnahme: 'Anleitung + Unterstützung morgens/abends', ziel: 'Selbstständigkeit erhalten' },
-    { symptom: 'Unzureichende Flüssigkeitsaufnahme', massnahme: 'Trinkplan + Erinnerung', ziel: 'Ausreichende Hydrierung' },
-    { symptom: 'Sturzrisiko / Schwindel', massnahme: 'Sturzprophylaxe, Hilfsmittel prüfen', ziel: 'Stürze vermeiden' },
-    { symptom: 'Schmerzen (Bewegung)', massnahme: 'Schmerzmanagement, Lagerung', ziel: 'Schmerz reduziert' },
-    { symptom: 'Dekubitusrisiko', massnahme: 'Positionswechsel, Hautkontrolle', ziel: 'Haut intakt' },
-    { symptom: 'Schlafstörung', massnahme: 'Schlafhygiene, Tagesstruktur', ziel: 'Erholsamer Schlaf' },
-    { symptom: 'Obstipationsrisiko', massnahme: 'Flüssigkeit, Bewegung, Ernährung', ziel: 'Regelmäßige Ausscheidung' },
-    { symptom: 'Atemnot bei Belastung', massnahme: 'Atemübungen, Pausen', ziel: 'Belastbarkeit verbessert' },
-    { symptom: 'Appetitlosigkeit', massnahme: 'Kleine Mahlzeiten, Wunschkost', ziel: 'Ausreichende Energiezufuhr' },
-    { symptom: 'Hauttrockenheit', massnahme: 'Rückfettende Pflege', ziel: 'Haut geschmeidig' },
-    { symptom: 'Angst/Unruhe', massnahme: 'Orientierung, Gespräch, Struktur', ziel: 'Ruhe & Sicherheit' },
+    // Mobilität
+    { atl: 'Sich bewegen', kat: 'Mobilität', symptom: 'Eingeschränkte Mobilität / unsicherer Gang', massnahme: 'Mobilisation & Gehtraining', ziel: 'Sicheres Gehen' },
+    { atl: 'Sich bewegen', kat: 'Mobilität', symptom: 'Sturzrisiko / Schwindel', massnahme: 'Sturzprophylaxe, Hilfsmittel prüfen', ziel: 'Stürze vermeiden' },
+    { atl: 'Sich bewegen', kat: 'Mobilität', symptom: 'Kontrakturgefahr', massnahme: 'Bewegungsübungen, Lagerung, Aktivierung', ziel: 'Beweglichkeit erhalten' },
+    { atl: 'Sich bewegen', kat: 'Mobilität', symptom: 'Schmerzen (Bewegung)', massnahme: 'Schmerzmanagement, Lagerung', ziel: 'Schmerz reduziert' },
+
+    // Körperpflege
+    { atl: 'Körperpflege', kat: 'Körperpflege', symptom: 'Teilweise Unterstützung bei Körperpflege', massnahme: 'Anleitung + Unterstützung morgens/abends', ziel: 'Selbstständigkeit erhalten' },
+    { atl: 'Körperpflege', kat: 'Körperpflege', symptom: 'Hauttrockenheit', massnahme: 'Rückfettende Pflege', ziel: 'Haut geschmeidig' },
+    { atl: 'Körperpflege', kat: 'Körperpflege', symptom: 'Dekubitusrisiko', massnahme: 'Positionswechsel, Hautkontrolle', ziel: 'Haut intakt' },
+    { atl: 'Körperpflege', kat: 'Körperpflege', symptom: 'Intertrigo-/Wundheilungsrisiko', massnahme: 'Hautinspektion, trocken halten, Schutzcreme', ziel: 'Entzündung vermeiden' },
+
+    // Essen & Trinken / Ernährung
+    { atl: 'Essen & Trinken', kat: 'Ernährung', symptom: 'Unzureichende Flüssigkeitsaufnahme', massnahme: 'Trinkplan + Erinnerung', ziel: 'Ausreichende Hydrierung' },
+    { atl: 'Essen & Trinken', kat: 'Ernährung', symptom: 'Appetitlosigkeit', massnahme: 'Kleine Mahlzeiten, Wunschkost', ziel: 'Ausreichende Energiezufuhr' },
+    { atl: 'Essen & Trinken', kat: 'Ernährung', symptom: 'Dysphagie-Verdacht', massnahme: 'Konsistenz anpassen, Schlucktraining anleiten', ziel: 'Aspirationsrisiko reduziert' },
+    { atl: 'Essen & Trinken', kat: 'Ernährung', symptom: 'Mangelernährungsrisiko', massnahme: 'Ernährungsprotokoll, Zwischenmahlzeiten', ziel: 'Gewicht stabil' },
+
+    // Ausscheiden
+    { atl: 'Ausscheiden', kat: 'Ausscheidung', symptom: 'Obstipationsrisiko', massnahme: 'Flüssigkeit, Bewegung, Ernährung', ziel: 'Regelmäßige Ausscheidung' },
+    { atl: 'Ausscheiden', kat: 'Ausscheidung', symptom: 'Harninkontinenz', massnahme: 'Toilettentraining, Hautschutz, Hilfsmittel', ziel: 'Hautschutz & Sicherheit' },
+    { atl: 'Ausscheiden', kat: 'Ausscheidung', symptom: 'Harnwegsinfekt-Risiko', massnahme: 'Trinkmenge fördern, Intimhygiene, Beobachtung', ziel: 'Infekt vermeiden' },
+
+    // Atmung / Belastung
+    { atl: 'Sich bewegen', kat: 'Mobilität', symptom: 'Atemnot bei Belastung', massnahme: 'Atemübungen, Pausen', ziel: 'Belastbarkeit verbessert' },
+
+    // Ruhe / Schlaf / Psyche (als zusätzliche Vorlagen)
+    { atl: 'Körperpflege', kat: 'Körperpflege', symptom: 'Schlafstörung', massnahme: 'Schlafhygiene, Tagesstruktur', ziel: 'Erholsamer Schlaf' },
+    { atl: 'Körperpflege', kat: 'Körperpflege', symptom: 'Angst/Unruhe', massnahme: 'Orientierung, Gespräch, Struktur', ziel: 'Ruhe & Sicherheit' },
   ];
 
   const demoAnamnese = demoTemplates.slice(0, 6); // Vorschläge aus Anamnese
@@ -160,8 +177,10 @@
     const left = `
       <div class="pp-card">
         <h3 class="pp-card__title">Vorlagenliste</h3>
-        ${tableHtml(demoTemplates, { checkbox: true })}
-        <p class="pp-hint">Mehr Vorlagen (Demo) – einfach auswählen und übernehmen.</p>
+        <div id="ppTemplateTable">
+          ${tableHtml(demoTemplates, { checkbox: true })}
+        </div>
+        <p class="pp-hint">Filter wirken sofort (ATL/Kategorie). Danach auswählen und übernehmen.</p>
       </div>
     `;
 
@@ -259,100 +278,45 @@
         qsa('.pp-rowcheck', modalEl).forEach((c) => (c.checked = true));
       });
     }
+
     // Accept
     const acceptBtn = qs('[data-accept]', modalEl);
     if (acceptBtn) {
       acceptBtn.addEventListener('click', () => {
-
-        const planBody = document.getElementById('planBody');
-        if (!planBody) {
-          closeModal();
-          return;
-        }
-
-        // Frequenz + Evaluierung aus dem aktiven Modal lesen (je nach Dialog-ID)
-        const freqEl = qs('#ppFreq, #ppFreq2, #ppFreq3', modalEl);
-        const evalEl = qs('#ppEval, #ppEval2, #ppEval3', modalEl);
-
-        const freqValRaw = freqEl ? String(freqEl.value || '').trim() : '';
-        const evalValRaw = evalEl ? String(evalEl.value || '').trim() : '';
-
-        const freqVal = (freqValRaw && freqValRaw !== 'Bitte wählen') ? freqValRaw : '';
-        const evalVal = (evalValRaw && evalValRaw !== 'Bitte wählen') ? evalValRaw : '';
-
-        // Eval-Text -> Datum ableiten (für Spalte "Evaluation am")
-        function addDays(d, n){
-          const x = new Date(d.getTime());
-          x.setDate(x.getDate() + n);
-          return x;
-        }
-        const today = new Date();
-        const plannedStr = today.toLocaleDateString('de-DE');
-
-        let evalStr = '—';
-        if (evalVal === 'täglich') evalStr = addDays(today, 1).toLocaleDateString('de-DE');
-        else if (evalVal === 'alle 2 Tage') evalStr = addDays(today, 2).toLocaleDateString('de-DE');
-        else if (evalVal === 'wöchentlich') evalStr = addDays(today, 7).toLocaleDateString('de-DE');
-        else if (evalVal === 'bei Änderung') evalStr = 'bei Änderung';
-
-        const checked = qsa('.pp-rowcheck:checked', modalEl);
-
-        // Checkbox-Übernahme (Anamnese / Vorlagen)
-        if (checked.length > 0) {
-          checked.forEach(cb => {
-            const row = cb.closest('.pp-table__row');
-            if (!row) return;
-
-            const cells = qsa('.pp-table__cell', row);
-            if (cells.length < 4) return;
-
-            const diagnose = cells[1].textContent.trim();
-            const massnahmeBase = cells[2].textContent.trim();
-            const ziel = cells[3].textContent.trim();
-
-            const massnahme = freqVal ? `${massnahmeBase} (${freqVal})` : massnahmeBase;
-
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-              <td class="pp-date">${plannedStr}</td>
-              <td>${diagnose}</td>
-              <td>${massnahme}</td>
-              <td>${ziel}</td>
-              <td class="pp-date pp-date--right">${evalStr}</td>
-            `;
-
-            planBody.appendChild(tr);
-          });
-        }
-        // Frei definierte Planung
-        else {
-          const textareas = qsa('textarea', modalEl);
-          if (textareas.length >= 3) {
-            const diagnose = textareas[0].value.trim();
-            const massnahmeBase = textareas[1].value.trim();
-            const ziel = textareas[2].value.trim();
-
-            const massnahme = freqVal ? `${massnahmeBase} (${freqVal})` : massnahmeBase;
-
-            if (diagnose || massnahmeBase || ziel) {
-              const tr = document.createElement('tr');
-              tr.innerHTML = `
-                <td class="pp-date">${plannedStr}</td>
-                <td>${diagnose}</td>
-                <td>${massnahme}</td>
-                <td>${ziel}</td>
-                <td class="pp-date pp-date--right">${evalStr}</td>
-              `;
-              planBody.appendChild(tr);
-            }
-          }
-        }
-
+        // Demo feedback
         acceptBtn.blur();
         closeModal();
       });
     }
-}
+
+    // Templates: Filter-Logik (ATL + Kategorie)
+    const tplWrap = qs('#ppTemplateTable', modalEl);
+    const atlSel = qs('#ppAtl', modalEl);
+    const katSel = qs('#ppKat', modalEl);
+    if (tplWrap && (atlSel || katSel)) {
+      const applyFilters = () => {
+        const atl = atlSel ? String(atlSel.value || '').trim() : '';
+        const kat = katSel ? String(katSel.value || '').trim() : '';
+
+        const atlOk = (atl && atl !== 'Bitte wählen') ? atl : '';
+        const katOk = (kat && kat !== 'Bitte wählen') ? kat : '';
+
+        const filtered = demoTemplates.filter((t) => {
+          const okAtl = !atlOk || t.atl === atlOk;
+          const okKat = !katOk || t.kat === katOk;
+          return okAtl && okKat;
+        });
+
+        tplWrap.innerHTML = tableHtml(filtered.length ? filtered : [], { checkbox: true }) +
+          (filtered.length ? '' : '<p class="pp-hint">Keine Treffer – Filter anpassen.</p>');
+      };
+
+      if (atlSel) atlSel.addEventListener('change', applyFilters);
+      if (katSel) katSel.addEventListener('change', applyFilters);
+      applyFilters();
+    }
+
+  }
 
   function openModal(kind) {
     const root = qs('#modalRoot');
