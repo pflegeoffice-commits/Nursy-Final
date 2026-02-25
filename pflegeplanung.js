@@ -10,35 +10,49 @@
   const qsa = (sel, el = document) => Array.from(el.querySelectorAll(sel));
 
   const demoTemplates = [
-    // Mobilität
+    // 13 Kategorien (Demo) – für Filterlogik in "Vorlagen"
+    // 1 Mobilität
     { atl: 'Sich bewegen', kat: 'Mobilität', symptom: 'Eingeschränkte Mobilität / unsicherer Gang', massnahme: 'Mobilisation & Gehtraining', ziel: 'Sicheres Gehen' },
-    { atl: 'Sich bewegen', kat: 'Mobilität', symptom: 'Sturzrisiko / Schwindel', massnahme: 'Sturzprophylaxe, Hilfsmittel prüfen', ziel: 'Stürze vermeiden' },
     { atl: 'Sich bewegen', kat: 'Mobilität', symptom: 'Kontrakturgefahr', massnahme: 'Bewegungsübungen, Lagerung, Aktivierung', ziel: 'Beweglichkeit erhalten' },
-    { atl: 'Sich bewegen', kat: 'Mobilität', symptom: 'Schmerzen (Bewegung)', massnahme: 'Schmerzmanagement, Lagerung', ziel: 'Schmerz reduziert' },
 
-    // Körperpflege
+    // 2 Körperpflege
     { atl: 'Körperpflege', kat: 'Körperpflege', symptom: 'Teilweise Unterstützung bei Körperpflege', massnahme: 'Anleitung + Unterstützung morgens/abends', ziel: 'Selbstständigkeit erhalten' },
-    { atl: 'Körperpflege', kat: 'Körperpflege', symptom: 'Hauttrockenheit', massnahme: 'Rückfettende Pflege', ziel: 'Haut geschmeidig' },
-    { atl: 'Körperpflege', kat: 'Körperpflege', symptom: 'Dekubitusrisiko', massnahme: 'Positionswechsel, Hautkontrolle', ziel: 'Haut intakt' },
-    { atl: 'Körperpflege', kat: 'Körperpflege', symptom: 'Intertrigo-/Wundheilungsrisiko', massnahme: 'Hautinspektion, trocken halten, Schutzcreme', ziel: 'Entzündung vermeiden' },
 
-    // Essen & Trinken / Ernährung
-    { atl: 'Essen & Trinken', kat: 'Ernährung', symptom: 'Unzureichende Flüssigkeitsaufnahme', massnahme: 'Trinkplan + Erinnerung', ziel: 'Ausreichende Hydrierung' },
-    { atl: 'Essen & Trinken', kat: 'Ernährung', symptom: 'Appetitlosigkeit', massnahme: 'Kleine Mahlzeiten, Wunschkost', ziel: 'Ausreichende Energiezufuhr' },
-    { atl: 'Essen & Trinken', kat: 'Ernährung', symptom: 'Dysphagie-Verdacht', massnahme: 'Konsistenz anpassen, Schlucktraining anleiten', ziel: 'Aspirationsrisiko reduziert' },
-    { atl: 'Essen & Trinken', kat: 'Ernährung', symptom: 'Mangelernährungsrisiko', massnahme: 'Ernährungsprotokoll, Zwischenmahlzeiten', ziel: 'Gewicht stabil' },
+    // 3 Ernährung & Flüssigkeit
+    { atl: 'Essen & Trinken', kat: 'Ernährung & Flüssigkeit', symptom: 'Unzureichende Flüssigkeitsaufnahme', massnahme: 'Trinkplan + Erinnerung', ziel: 'Ausreichende Hydrierung' },
+    { atl: 'Essen & Trinken', kat: 'Ernährung & Flüssigkeit', symptom: 'Mangelernährungsrisiko', massnahme: 'Ernährungsprotokoll, Zwischenmahlzeiten', ziel: 'Gewicht stabil' },
 
-    // Ausscheiden
+    // 4 Ausscheidung
     { atl: 'Ausscheiden', kat: 'Ausscheidung', symptom: 'Obstipationsrisiko', massnahme: 'Flüssigkeit, Bewegung, Ernährung', ziel: 'Regelmäßige Ausscheidung' },
     { atl: 'Ausscheiden', kat: 'Ausscheidung', symptom: 'Harninkontinenz', massnahme: 'Toilettentraining, Hautschutz, Hilfsmittel', ziel: 'Hautschutz & Sicherheit' },
-    { atl: 'Ausscheiden', kat: 'Ausscheidung', symptom: 'Harnwegsinfekt-Risiko', massnahme: 'Trinkmenge fördern, Intimhygiene, Beobachtung', ziel: 'Infekt vermeiden' },
 
-    // Atmung / Belastung
-    { atl: 'Sich bewegen', kat: 'Mobilität', symptom: 'Atemnot bei Belastung', massnahme: 'Atemübungen, Pausen', ziel: 'Belastbarkeit verbessert' },
+    // 5 Atmung
+    { atl: 'Sich bewegen', kat: 'Atmung', symptom: 'Atemnot bei Belastung', massnahme: 'Atemübungen, Pausen, Oberkörper hoch', ziel: 'Dyspnoe reduziert' },
 
-    // Ruhe / Schlaf / Psyche (als zusätzliche Vorlagen)
-    { atl: 'Körperpflege', kat: 'Körperpflege', symptom: 'Schlafstörung', massnahme: 'Schlafhygiene, Tagesstruktur', ziel: 'Erholsamer Schlaf' },
-    { atl: 'Körperpflege', kat: 'Körperpflege', symptom: 'Angst/Unruhe', massnahme: 'Orientierung, Gespräch, Struktur', ziel: 'Ruhe & Sicherheit' },
+    // 6 Schmerz
+    { atl: 'Körperpflege', kat: 'Schmerz', symptom: 'Schmerzen bei Bewegung', massnahme: 'Schmerzassessment, Lagerung, Wärme/Kälte nach Bedarf', ziel: 'Schmerz < 3/10' },
+
+    // 7 Wunde & Haut
+    { atl: 'Körperpflege', kat: 'Wunde & Haut', symptom: 'Dekubitusrisiko', massnahme: 'Positionswechsel, Hautkontrolle, Druckentlastung', ziel: 'Haut intakt' },
+    { atl: 'Körperpflege', kat: 'Wunde & Haut', symptom: 'Hauttrockenheit', massnahme: 'Rückfettende Pflege', ziel: 'Haut geschmeidig' },
+
+    // 8 Schlaf & Ruhe
+    { atl: 'Körperpflege', kat: 'Schlaf & Ruhe', symptom: 'Schlafstörung', massnahme: 'Schlafhygiene, Tagesstruktur, Reize reduzieren', ziel: 'Erholsamer Schlaf' },
+
+    // 9 Psyche & Kommunikation
+    { atl: 'Kommunizieren', kat: 'Psyche & Kommunikation', symptom: 'Angst/Unruhe', massnahme: 'Orientierung, Gespräch, Struktur', ziel: 'Ruhe & Sicherheit' },
+
+    // 10 Kognition & Orientierung
+    { atl: 'Kommunizieren', kat: 'Kognition & Orientierung', symptom: 'Desorientierung (Zeit/Ort)', massnahme: 'Orientierungshilfen, Tagesplan, Validation', ziel: 'Orientierung verbessert' },
+
+    // 11 Sicherheit & Sturz
+    { atl: 'Sich bewegen', kat: 'Sicherheit & Sturz', symptom: 'Sturzrisiko / Schwindel', massnahme: 'Sturzprophylaxe, Hilfsmittel prüfen', ziel: 'Stürze vermeiden' },
+
+    // 12 Medikation
+    { atl: 'Essen & Trinken', kat: 'Medikation', symptom: 'Unregelmäßige Medikamenteneinnahme', massnahme: 'Mediplan, Einnahme-Reminder, Kontrolle', ziel: 'Adhärenz verbessert' },
+
+    // 13 Prophylaxen
+    { atl: 'Körperpflege', kat: 'Prophylaxen', symptom: 'Thromboserisiko', massnahme: 'Aktivierung, Wadenpumpe, Kompression nach AO', ziel: 'Thrombose vermeiden' },
   ];
 
   const demoAnamnese = demoTemplates.slice(0, 6); // Vorschläge aus Anamnese
@@ -167,8 +181,8 @@
         <div class="pp-stack">
           ${buildSelect('ppFreq2', 'Frequenz', frequencyOptions)}
           ${buildSelect('ppEval2', 'Evaluierung', evalOptions)}
-          ${buildSelect('ppAtl', 'ATL auswählen', ['Bitte wählen', 'Sich bewegen', 'Essen & Trinken', 'Ausscheiden', 'Körperpflege'])}
-          ${buildSelect('ppKat', 'Kategorie', ['Bitte wählen', 'Mobilität', 'Körperpflege', 'Ernährung', 'Ausscheidung'])}
+          ${buildSelect('ppAtl', 'ATL auswählen', ['Bitte wählen', 'Sich bewegen', 'Essen & Trinken', 'Ausscheiden', 'Körperpflege', 'Kommunizieren'])}
+          ${buildSelect('ppKat', 'Kategorie', ['Bitte wählen', 'Mobilität', 'Körperpflege', 'Ernährung & Flüssigkeit', 'Ausscheidung', 'Atmung', 'Schmerz', 'Wunde & Haut', 'Schlaf & Ruhe', 'Psyche & Kommunikation', 'Kognition & Orientierung', 'Sicherheit & Sturz', 'Medikation', 'Prophylaxen'])}
           <p class="pp-hint">Demo: Filter ohne Logik.</p>
         </div>
       </div>
@@ -177,10 +191,8 @@
     const left = `
       <div class="pp-card">
         <h3 class="pp-card__title">Vorlagenliste</h3>
-        <div id="ppTemplateTable">
-          ${tableHtml(demoTemplates, { checkbox: true })}
-        </div>
-        <p class="pp-hint">Filter wirken sofort (ATL/Kategorie). Danach auswählen und übernehmen.</p>
+        ${tableHtml(demoTemplates, { checkbox: true })}
+        <p class="pp-hint">Mehr Vorlagen (Demo) – einfach auswählen und übernehmen.</p>
       </div>
     `;
 
@@ -288,34 +300,6 @@
         closeModal();
       });
     }
-
-    // Templates: Filter-Logik (ATL + Kategorie)
-    const tplWrap = qs('#ppTemplateTable', modalEl);
-    const atlSel = qs('#ppAtl', modalEl);
-    const katSel = qs('#ppKat', modalEl);
-    if (tplWrap && (atlSel || katSel)) {
-      const applyFilters = () => {
-        const atl = atlSel ? String(atlSel.value || '').trim() : '';
-        const kat = katSel ? String(katSel.value || '').trim() : '';
-
-        const atlOk = (atl && atl !== 'Bitte wählen') ? atl : '';
-        const katOk = (kat && kat !== 'Bitte wählen') ? kat : '';
-
-        const filtered = demoTemplates.filter((t) => {
-          const okAtl = !atlOk || t.atl === atlOk;
-          const okKat = !katOk || t.kat === katOk;
-          return okAtl && okKat;
-        });
-
-        tplWrap.innerHTML = tableHtml(filtered.length ? filtered : [], { checkbox: true }) +
-          (filtered.length ? '' : '<p class="pp-hint">Keine Treffer – Filter anpassen.</p>');
-      };
-
-      if (atlSel) atlSel.addEventListener('change', applyFilters);
-      if (katSel) katSel.addEventListener('change', applyFilters);
-      applyFilters();
-    }
-
   }
 
   function openModal(kind) {
