@@ -2,6 +2,57 @@
    Modal UI nach Skizze: Anamnese / Vorlagen / Frei definiert
    Hinweis: Demo-Daten, keine Speicherung.
 */
+// === Patienten-Verknüpfung: "Meine Patienten" -> Pflegeplanung ===
+// Quelle ist die Patients-Seite (patients.js). Dort werden Demo/echte Patienten gespeichert.
+const PAT_KEY_PRIMARY = "nursy_patients_demo_v1";
+const PAT_KEY_FALLBACK = "nursy_patients_v1";
+const ACTIVE_PAT_KEY = "nursy_active_patient_id";
+
+function loadMeinePatienten(){
+  const tryKeys = [PAT_KEY_PRIMARY, PAT_KEY_FALLBACK];
+  for (const k of tryKeys){
+    try{
+      const raw = localStorage.getItem(k);
+      if (!raw) continue;
+      const arr = JSON.parse(raw);
+      if (Array.isArray(arr) && arr.length) return arr;
+    }catch(e){}
+  }
+  return [];
+}
+
+function syncPatientsFromMeinePatienten(){
+  const select = document.getElementById("patientSelect");
+  const line = document.getElementById("activePatientLine");
+  if (!select) return;
+
+  const pats = loadMeinePatienten();
+  if (!pats.length) return; // fallback: statische Optionen bleiben
+
+  const activeId = (function(){ try{ return localStorage.getItem(ACTIVE_PAT_KEY) || ""; }catch(e){ return ""; } })();
+
+  select.innerHTML = "";
+  pats.forEach((p, i) => {
+    const opt = document.createElement("option");
+    const id = p.id || ("p" + (i+1));
+    const name = p.name || ("Patient " + (i+1));
+    opt.value = id;
+    opt.textContent = name;
+    if (activeId && id === activeId) opt.selected = true;
+    select.appendChild(opt);
+  });
+
+  const txt = select.options[select.selectedIndex]?.text || "";
+  if (line) line.innerHTML = 'Aktiver Patient: <strong>' + txt + '</strong>';
+
+  // Auswahlwechsel -> active patient merken
+  select.addEventListener("change", () => {
+    try{ localStorage.setItem(ACTIVE_PAT_KEY, select.value); }catch(e){}
+    const t = select.options[select.selectedIndex]?.text || "";
+    if (line) line.innerHTML = 'Aktiver Patient: <strong>' + t + '</strong>';
+  });
+}
+
 
 (function () {
   'use strict';
@@ -719,45 +770,8 @@
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => { syncPatientsFromDashboard(); init(); });
+    document.addEventListener('DOMContentLoaded', () => { syncPatientsFromMeinePatienten(); init(); });
   } else {
     init();
   }
 })();
-  // Patienten aus "Meine Patienten" (Dashboard) übernehmen
-  const PATIENTS_KEY = "nursy_patients_v1";
-  const ACTIVE_PATIENT_KEY = "nursy_active_patient_id";
-
-  function loadDashboardPatients(){
-    try {
-      const raw = localStorage.getItem(PATIENTS_KEY);
-      const arr = raw ? JSON.parse(raw) : [];
-      return Array.isArray(arr) ? arr : [];
-    } catch(e){ return []; }
-  }
-
-  function syncPatientsFromDashboard(){
-    const select = document.getElementById("patientSelect");
-    const line = document.getElementById("activePatientLine");
-    if (!select) return;
-
-    const patients = loadDashboardPatients();
-    if (!patients.length) return; // fallback: HTML-Optionen bleiben
-
-    const activeId = localStorage.getItem(ACTIVE_PATIENT_KEY);
-
-    // Dropdown neu aufbauen
-    select.innerHTML = "";
-    patients.forEach((p, i) => {
-      const opt = document.createElement("option");
-      opt.value = p.id || ("p" + (i+1));
-      opt.textContent = p.name || ("Patient " + (i+1));
-      if (activeId && opt.value === activeId) opt.selected = true;
-      select.appendChild(opt);
-    });
-
-    // Active-Line aktualisieren
-    const txt = select.options[select.selectedIndex]?.text || "";
-    if (line) line.innerHTML = "Aktiver Patient: <strong>" + txt + "</strong>";
-  }
-

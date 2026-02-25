@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nursy – Anfragen</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="container topbar__inner">
+    <a class="brand" href="index.html" aria-label="Nursy Startseite">
+      <span class="brand__dot" aria-hidden="true"></span>
+      <span class="brand__text">
+        <strong>Nursy</strong>
+        <span>Pflege mit Herz</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a href="dashboard-care.html">Dashboard</a>
+      <a href="patients.html">Meine Patienten</a>
+      <a href="pflegeplanung.html">Pflegeplanung</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <section class="section">
+    <div class="section__head">
+      <h2>Anfragen (Demo)</h2>
+      <p class="muted">Hier aktivierst du neue Anfragen als deine Patienten.</p>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;">
+        <div>
+          <div class="muted" id="reqCountLine">—</div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn--secondary" id="seedReq">Demo-Anfragen laden</button>
+          <a class="btn btn--primary" href="patients.html">Zu meinen Patienten</a>
+        </div>
+      </div>
+
+      <div id="reqList" style="margin-top:14px;"></div>
+      <p class="muted" id="reqEmpty" style="margin-top:12px;" hidden>Keine offenen Anfragen.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <span class="muted">© Nursy – Pflege mit Herz</span>
+    <div class="footer__links">
+      <a href="#">Impressum</a>
+      <a href="#">Datenschutz</a>
+    </div>
+  </div>
+</footer>
+
+<script src="requests.js"></script>
+</body>
+</html>
