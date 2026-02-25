@@ -1663,17 +1663,24 @@ html.pp-modal-open body{overflow:hidden;}
 }
 
 
-/* ===== SPALTEN-FIX – Zeitblock weiter nach links ===== */
+/* ===== FORCE LEFT SHIFT – FINAL OVERRIDE ===== */
 
-/* Linker Bereich (Name + Adresse) begrenzen */
-.patients-item > div:first-child{
-  flex: 0 0 280px !important;   /* kleiner = weiter links */
-  max-width: 280px !important;
+.patients-item{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
 }
 
-/* Zeit- / Statusbereich kompakt halten */
-.patients-meta{
-  flex: 0 0 auto !important;
-  margin-left: 0 !important;
+.patients-item > div:first-child{
+  flex:0 0 200px !important;
+  max-width:200px !important;
+}
+
+.patients-item > div:not(:first-child){
+  margin-left:20px !important;
+}
+
+.patients-item .pill{
+  margin-left:0 !important;
 }
 
