@@ -10,71 +10,42 @@
   const qsa = (sel, el = document) => Array.from(el.querySelectorAll(sel));
 
   const demoTemplates = [
-    { symptom: 'Eingeschränkte Mobilität / unsicherer Gang', massnahme: 'Mobilisation & Gehtraining', ziel: 'Sicheres Gehen' },
-    { symptom: 'Teilweise Unterstützung bei Körperpflege', massnahme: 'Anleitung + Unterstützung morgens/abends', ziel: 'Selbstständigkeit erhalten' },
-    { symptom: 'Unzureichende Flüssigkeitsaufnahme', massnahme: 'Trinkplan + Erinnerung', ziel: 'Ausreichende Hydrierung' },
-    { symptom: 'Sturzrisiko / Schwindel', massnahme: 'Sturzprophylaxe, Hilfsmittel prüfen', ziel: 'Stürze vermeiden' },
-    { symptom: 'Schmerzen (Bewegung)', massnahme: 'Schmerzmanagement, Lagerung', ziel: 'Schmerz reduziert' },
-    { symptom: 'Dekubitusrisiko', massnahme: 'Positionswechsel, Hautkontrolle', ziel: 'Haut intakt' },
-    { symptom: 'Schlafstörung', massnahme: 'Schlafhygiene, Tagesstruktur', ziel: 'Erholsamer Schlaf' },
-    { symptom: 'Obstipationsrisiko', massnahme: 'Flüssigkeit, Bewegung, Ernährung', ziel: 'Regelmäßige Ausscheidung' },
-    { symptom: 'Atemnot bei Belastung', massnahme: 'Atemübungen, Pausen', ziel: 'Belastbarkeit verbessert' },
-    { symptom: 'Appetitlosigkeit', massnahme: 'Kleine Mahlzeiten, Wunschkost', ziel: 'Ausreichende Energiezufuhr' },
-    { symptom: 'Hauttrockenheit', massnahme: 'Rückfettende Pflege', ziel: 'Haut geschmeidig' },
-    { symptom: 'Angst/Unruhe', massnahme: 'Orientierung, Gespräch, Struktur', ziel: 'Ruhe & Sicherheit' },
+    // Mobilität
+    { atl:'Sich bewegen', kat:'Mobilität', symptom:'Eingeschränkte Mobilität / unsicherer Gang', massnahme:'Mobilisation & Gehtraining', ziel:'Sicheres Gehen' },
+    { atl:'Sich bewegen', kat:'Sicherheit & Sturz', symptom:'Sturzrisiko / Schwindel', massnahme:'Sturzprophylaxe, Umfeld sichern, Hilfsmittel prüfen', ziel:'Stürze vermeiden' },
+
+    // Körperpflege / Haut
+    { atl:'Körperpflege', kat:'Körperpflege', symptom:'Teilweise Unterstützung bei Körperpflege', massnahme:'Anleitung + Unterstützung morgens/abends', ziel:'Selbstständigkeit erhalten' },
+    { atl:'Körperpflege', kat:'Wunde & Haut', symptom:'Wundversorgung (generell)', massnahme:'Wundassessment + Verbandwechsel nach AO', ziel:'Wundheilung fördern' },
+    { atl:'Körperpflege', kat:'Wunde & Haut', symptom:'Dekubitus Grad 1 (Rötung)', massnahme:'Druckentlastung + Hautschutz + Kontrolle', ziel:'Rötung rückläufig' },
+    { atl:'Körperpflege', kat:'Wunde & Haut', symptom:'Dekubitus Grad 2 (Hautdefekt/Blase)', massnahme:'Wundversorgung nach AO + Druckentlastung', ziel:'Granulation fördern' },
+
+    // Ernährung
+    { atl:'Essen & Trinken', kat:'Ernährung & Flüssigkeit', symptom:'Unzureichende Flüssigkeitsaufnahme', massnahme:'Trinkplan + Erinnerung', ziel:'Ausreichende Hydrierung' },
+    { atl:'Essen & Trinken', kat:'Ernährung & Flüssigkeit', symptom:'Mangelernährungsrisiko', massnahme:'Ernährungsprotokoll + Zwischenmahlzeiten', ziel:'Gewicht stabil' },
+
+    // Ausscheidung
+    { atl:'Ausscheiden', kat:'Ausscheidung', symptom:'Obstipationsrisiko', massnahme:'Flüssigkeit, Bewegung, Ernährung', ziel:'Regelmäßige Ausscheidung' },
+    { atl:'Ausscheiden', kat:'Ausscheidung', symptom:'Harninkontinenz', massnahme:'Toilettentraining + Hautschutz + Hilfsmittel', ziel:'Hautschutz & Sicherheit' },
+
+    // Atmung
+    { atl:'Sich bewegen', kat:'Atmung', symptom:'Atemnot bei Belastung', massnahme:'Atemübungen + Pausen + Oberkörper hoch', ziel:'Dyspnoe reduziert' },
+
+    // Schmerz
+    { atl:'Körperpflege', kat:'Schmerz', symptom:'Schmerzen bei Bewegung', massnahme:'Schmerzassessment + Lagerung + Wärme/Kälte nach AO', ziel:'Schmerz reduziert' },
+
+    // Schlaf / Psyche / Kognition / Medikation / Prophylaxen (Beispiele)
+    { atl:'Körperpflege', kat:'Schlaf & Ruhe', symptom:'Schlafstörung', massnahme:'Schlafhygiene + Abendroutine', ziel:'Erholsamer Schlaf' },
+    { atl:'Kommunizieren', kat:'Psyche & Kommunikation', symptom:'Angst/Unruhe', massnahme:'Orientierung + Gespräch + Struktur', ziel:'Ruhe & Sicherheit' },
+    { atl:'Kommunizieren', kat:'Kognition & Orientierung', symptom:'Desorientierung (Zeit/Ort)', massnahme:'Orientierungshilfen + Tagesplan', ziel:'Orientierung verbessert' },
+    { atl:'Essen & Trinken', kat:'Medikation', symptom:'Medikamenteneinnahme unsicher', massnahme:'Mediplan + Einnahmehilfe + Kontrolle', ziel:'Adhärenz verbessert' },
+    { atl:'Körperpflege', kat:'Prophylaxen', symptom:'Thromboserisiko', massnahme:'Aktivierung + Wadenpumpe, Kompression nach AO', ziel:'Thrombose vermeiden' },
   ];
 
   const demoAnamnese = demoTemplates.slice(0, 6); // Vorschläge aus Anamnese
 
   const frequencyOptions = ['Bitte wählen', '1x täglich', '2x täglich', '3x täglich', 'Wöchentlich', 'Bei Bedarf'];
   const evalOptions = ['Bitte wählen', 'täglich', 'alle 2 Tage', 'wöchentlich', 'bei Änderung'];
-
-  // Kategorie-Normalisierung (damit Vorlagen immer korrekt zugeordnet/gefunden werden)
-  const CATEGORY_CANON = [
-    'Mobilität',
-    'Körperpflege',
-    'Ernährung & Flüssigkeit',
-    'Ausscheidung',
-    'Atmung',
-    'Schmerz',
-    'Wunde & Haut',
-    'Schlaf & Ruhe',
-    'Psyche & Kommunikation',
-    'Kognition & Orientierung',
-    'Sicherheit & Sturz',
-    'Medikation',
-    'Prophylaxen'
-  ];
-
-  const CATEGORY_MAP = {
-    // häufige Varianten / Tippfehler / Synonyme
-    'Ernährung': 'Ernährung & Flüssigkeit',
-    'Ernaehrung': 'Ernährung & Flüssigkeit',
-    'Ernaehrung & Fluessigkeit': 'Ernährung & Flüssigkeit',
-    'Ernährung und Flüssigkeit': 'Ernährung & Flüssigkeit',
-    'Wunde und Haut': 'Wunde & Haut',
-    'Wunde/Haut': 'Wunde & Haut',
-    'Wunden & Haut': 'Wunde & Haut',
-    'Psyche': 'Psyche & Kommunikation',
-    'Kommunikation': 'Psyche & Kommunikation',
-    'Kognition': 'Kognition & Orientierung',
-    'Orientierung': 'Kognition & Orientierung',
-    'Sicherheit': 'Sicherheit & Sturz',
-    'Sturz': 'Sicherheit & Sturz',
-    'Prophylaxe': 'Prophylaxen'
-  };
-
-  function normalizeCategory(val){
-    const v = String(val || '').trim();
-    if (!v) return '';
-    const mapped = CATEGORY_MAP[v] || v;
-    // wenn exakt in Canon -> ok, sonst nur zurückgeben (Filter findet dann trotzdem via Map)
-    return mapped;
-  }
-
-  // Sanity: Kategorien der Vorlagen auf Canon normalisieren (ohne Inhalte zu ändern)
-  demoTemplates.forEach(t => { t.kat = normalizeCategory(t.kat); });
-
 
   function getActivePatientLabel() {
     const sel = qs('#patientSelect');
@@ -199,7 +170,7 @@
           ${buildSelect('ppEval2', 'Evaluierung', evalOptions)}
           ${buildSelect('ppAtl', 'ATL auswählen', ['Bitte wählen', 'Sich bewegen', 'Essen & Trinken', 'Ausscheiden', 'Körperpflege'])}
           ${buildSelect('ppKat', 'Kategorie', ['Bitte wählen', 'Mobilität', 'Körperpflege', 'Ernährung & Flüssigkeit', 'Ausscheidung', 'Atmung', 'Schmerz', 'Wunde & Haut', 'Schlaf & Ruhe', 'Psyche & Kommunikation', 'Kognition & Orientierung', 'Sicherheit & Sturz', 'Medikation', 'Prophylaxen'])}
-          <p class="pp-hint">Demo: Filter ohne Logik.</p>
+          <p class="pp-hint">Filter wirken sofort. Danach auswählen und übernehmen.</p>
         </div>
       </div>
     `;
@@ -207,7 +178,7 @@
     const left = `
       <div class="pp-card">
         <h3 class="pp-card__title">Vorlagenliste</h3>
-        ${tableHtml(demoTemplates, { checkbox: true })}
+        <div id="ppTemplateTable">${tableHtml(demoTemplates, { checkbox: true })}</div>
         <p class="pp-hint">Mehr Vorlagen (Demo) – einfach auswählen und übernehmen.</p>
       </div>
     `;
@@ -316,6 +287,33 @@
         closeModal();
       });
     }
+    // Templates: Filter-Logik (ATL + Kategorie)
+    const tplWrap = qs('#ppTemplateTable', modalEl);
+    const atlSel = qs('#ppAtl', modalEl);
+    const katSel = qs('#ppKat', modalEl);
+    if (tplWrap && (atlSel || katSel)) {
+      const applyFilters = () => {
+        const atl = atlSel ? String(atlSel.value || '').trim() : '';
+        const kat = katSel ? String(katSel.value || '').trim() : '';
+
+        const atlOk = (atl && atl !== 'Bitte wählen') ? atl : '';
+        const katOk = (kat && kat !== 'Bitte wählen') ? kat : '';
+
+        const filtered = demoTemplates.filter((t) => {
+          const okAtl = !atlOk || t.atl === atlOk;
+          const okKat = !katOk || t.kat === katOk;
+          return okAtl && okKat;
+        });
+
+        tplWrap.innerHTML = tableHtml(filtered, { checkbox: true }) +
+          (filtered.length ? '' : '<p class="pp-hint">Keine Treffer – Filter anpassen.</p>');
+      };
+
+      if (atlSel) atlSel.addEventListener('change', applyFilters);
+      if (katSel) katSel.addEventListener('change', applyFilters);
+      applyFilters();
+    }
+
   }
 
   function openModal(kind) {
