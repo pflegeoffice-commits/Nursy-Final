@@ -1661,3 +1661,22 @@ html.pp-modal-open body{overflow:hidden;}
   .pp-modal .pp-table__head .pp-table__cell:nth-child(n+3),
   .pp-modal .pp-table__row .pp-table__cell:nth-child(n+3){display:none;}
 }
+
+
+/* ===== FIX: Abstand Uhrzeit zu Buttons (Meine Klienten) ===== */
+.patients-list > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.patients-list .pill {
+  margin-right: 24px;
+  white-space: nowrap;
+}
+
+.patients-list .btn {
+  margin-left: 12px;
+}
+
