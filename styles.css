@@ -1663,29 +1663,17 @@ html.pp-modal-open body{overflow:hidden;}
 }
 
 
-/* ===== FINAL FIX – Uhrzeit korrekt ausgerichtet (Meine Klienten) ===== */
+/* ===== SPALTEN-FIX – Zeitblock weiter nach links ===== */
 
-.patients-item {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
+/* Linker Bereich (Name + Adresse) begrenzen */
+.patients-item > div:first-child{
+  flex: 0 0 280px !important;   /* kleiner = weiter links */
+  max-width: 280px !important;
 }
 
-.patients-meta {
-  display: flex !important;
-  align-items: center !important;
-  gap: 16px !important;
+/* Zeit- / Statusbereich kompakt halten */
+.patients-meta{
+  flex: 0 0 auto !important;
   margin-left: 0 !important;
-  padding-left: 0 !important;
-}
-
-.patients-meta .pill {
-  margin: 0 !important;
-}
-
-.patients-actions {
-  display: flex !important;
-  align-items: center !important;
-  gap: 16px !important;
 }
 
