@@ -1663,20 +1663,29 @@ html.pp-modal-open body{overflow:hidden;}
 }
 
 
-/* ===== FIX: Abstand Uhrzeit zu Buttons (Meine Klienten) ===== */
-.patients-list > div {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
+/* ===== FINAL FIX – Uhrzeit korrekt ausgerichtet (Meine Klienten) ===== */
+
+.patients-item {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
 }
 
-.patients-list .pill {
-  margin-right: 24px;
-  white-space: nowrap;
+.patients-meta {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
 }
 
-.patients-list .btn {
-  margin-left: 12px;
+.patients-meta .pill {
+  margin: 0 !important;
+}
+
+.patients-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
 }
 
