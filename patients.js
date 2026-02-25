@@ -6,7 +6,8 @@ const safeStorage = {
   remove(key){ try{ localStorage.removeItem(key); }catch(e){} }
 };
 
-const STORAGE_KEY = "nursy_patients_demo_v1";
+const STORAGE_KEY = "nursy_patients_v1";
+const LEGACY_KEYS = ["nursy_patients_demo_v1"];
 
 function isoDate(d = new Date()) {
   const y = d.getFullYear();
@@ -44,6 +45,17 @@ function seedDemo() {
 }
 
 function loadPatients() {
+  // Migration: alte Demo-Keys -> neuer Key (damit "Meine Patienten" und Pflegeplanung identisch sind)
+  if (!safeStorage.get(STORAGE_KEY)) {
+    for (const k of (LEGACY_KEYS || [])) {
+      const legacy = safeStorage.get(k);
+      if (legacy) {
+        safeStorage.set(STORAGE_KEY, legacy);
+        break;
+      }
+    }
+  }
+
   const raw = safeStorage.get(STORAGE_KEY);
   if (raw) {
     try { return JSON.parse(raw); } catch (e) {}

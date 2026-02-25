@@ -719,8 +719,45 @@
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', () => { syncPatientsFromDashboard(); init(); });
   } else {
     init();
   }
 })();
+  // Patienten aus "Meine Patienten" (Dashboard) übernehmen
+  const PATIENTS_KEY = "nursy_patients_v1";
+  const ACTIVE_PATIENT_KEY = "nursy_active_patient_id";
+
+  function loadDashboardPatients(){
+    try {
+      const raw = localStorage.getItem(PATIENTS_KEY);
+      const arr = raw ? JSON.parse(raw) : [];
+      return Array.isArray(arr) ? arr : [];
+    } catch(e){ return []; }
+  }
+
+  function syncPatientsFromDashboard(){
+    const select = document.getElementById("patientSelect");
+    const line = document.getElementById("activePatientLine");
+    if (!select) return;
+
+    const patients = loadDashboardPatients();
+    if (!patients.length) return; // fallback: HTML-Optionen bleiben
+
+    const activeId = localStorage.getItem(ACTIVE_PATIENT_KEY);
+
+    // Dropdown neu aufbauen
+    select.innerHTML = "";
+    patients.forEach((p, i) => {
+      const opt = document.createElement("option");
+      opt.value = p.id || ("p" + (i+1));
+      opt.textContent = p.name || ("Patient " + (i+1));
+      if (activeId && opt.value === activeId) opt.selected = true;
+      select.appendChild(opt);
+    });
+
+    // Active-Line aktualisieren
+    const txt = select.options[select.selectedIndex]?.text || "";
+    if (line) line.innerHTML = "Aktiver Patient: <strong>" + txt + "</strong>";
+  }
+
