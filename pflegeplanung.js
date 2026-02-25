@@ -10,118 +10,270 @@
   const qsa = (sel, el = document) => Array.from(el.querySelectorAll(sel));
 
   const demoTemplates = [
-    // 13 Kategorien – Vorlagen (Demo, aber mit mehr Detail)
+    // 13 Kategorien – Vorlagen (erweitert, detaillierter)
+
     // 1 Mobilität
-    { atl: 'Sich bewegen', kat: 'Mobilität', symptom: 'Eingeschränkte Mobilität / unsicherer Gang', massnahme: 'Mobilisation & Gehtraining', ziel: 'Sicheres Gehen', details: [
-      'Ressourcen/Defizite einschätzen (Stand, Transfer, Hilfsmittel).',
-      'Kurze Einheiten, Pausen einplanen; Sturzprophylaxe parallel.',
-      'Dokumentation: Strecke, Hilfsmittel, Belastbarkeit, Reaktion.'
+    { atl:'Sich bewegen', kat:'Mobilität', symptom:'Eingeschränkte Mobilität / unsicherer Gang', massnahme:'Mobilisation & Gehtraining', ziel:'Sicheres Gehen', details:[
+      'Transfer/Stand/Gangbild einschätzen; Hilfsmittel anpassen.',
+      'Kurze Einheiten, Pausen, Sturzprophylaxe integrieren.',
+      'Dokumentation: Strecke, Assistenzgrad, Belastbarkeit.'
     ]},
-    { atl: 'Sich bewegen', kat: 'Mobilität', symptom: 'Kontrakturgefahr', massnahme: 'Bewegungsübungen, Lagerung, Aktivierung', ziel: 'Beweglichkeit erhalten', details: [
-      'ROM-Übungen nach AO; schmerzadaptierte Mobilisation.',
-      'Lagerungswechsel + Positionierung (Druck, Gelenkstellung).',
+    { atl:'Sich bewegen', kat:'Mobilität', symptom:'Kontrakturgefahr (Immobilität)', massnahme:'Bewegungsübungen (ROM), Lagerung, Aktivierung', ziel:'Beweglichkeit erhalten', details:[
+      'ROM nach AO, schmerzadaptiert; Gelenkstellung beachten.',
+      'Lagerungswechsel + Positionierung; ggf. Hilfsmittel.',
       'Dokumentation: Schmerz, Bewegungsausmaß, Hautstatus.'
+    ]},
+    { atl:'Sich bewegen', kat:'Mobilität', symptom:'Transfer unsicher (Bett–Stuhl)', massnahme:'Transfertraining + Anleitung Kinästhetik', ziel:'Sicherer Transfer', details:[
+      'Rutschbrett/Standhilfe nach AO; Umgebung vorbereiten.',
+      'Ressourcen fördern, klare Schritt-für-Schritt-Anleitung.',
+      'Dokumentation: benötigte Hilfe, Risiken, Reaktion.'
+    ]},
+    { atl:'Sich bewegen', kat:'Mobilität', symptom:'Eingeschränkte Belastbarkeit', massnahme:'Belastungsdosierung, Aktivierung, Pausenplan', ziel:'Belastbarkeit gesteigert', details:[
+      'Borg-/Dyspnoe-Skala nutzen; Überforderung vermeiden.',
+      'Aktivitäten in Etappen; Ruhephasen strukturieren.',
+      'Dokumentation: Aktivitätsdauer, Vitalzeichen falls vorhanden.'
     ]},
 
     // 2 Körperpflege
-    { atl: 'Körperpflege', kat: 'Körperpflege', symptom: 'Teilweise Unterstützung bei Körperpflege', massnahme: 'Anleitung + Unterstützung morgens/abends', ziel: 'Selbstständigkeit erhalten', details: [
-      'Schrittweise anleiten (Waschutensilien vorbereiten, Reihenfolge).',
+    { atl:'Körperpflege', kat:'Körperpflege', symptom:'Teilweise Unterstützung bei Körperpflege', massnahme:'Anleitung + Unterstützung morgens/abends', ziel:'Selbstständigkeit erhalten', details:[
+      'Hilfsmittel bereitstellen; Reihenfolge gemeinsam planen.',
       'Intimsphäre wahren, Ressourcen fördern, Pausen anbieten.',
-      'Dokumentation: benötigte Hilfestufe, Hautbesonderheiten.'
+      'Dokumentation: Hilfestufe, Hautbesonderheiten.'
+    ]},
+    { atl:'Körperpflege', kat:'Körperpflege', symptom:'Mundpflege erschwert (Prothesen)', massnahme:'Mundpflege anleiten/übernehmen, Prothesenpflege', ziel:'Mundschleimhaut intakt', details:[
+      'Weiche Bürste/geeignete Pflege; Druckstellen beobachten.',
+      'Flüssigkeitszufuhr unterstützen; ggf. Lippenpflege.',
+      'Dokumentation: Befund, Beschwerden, Maßnahmen.'
+    ]},
+    { atl:'Körperpflege', kat:'Körperpflege', symptom:'Intimhygiene benötigt Unterstützung', massnahme:'Intimpflege, Hautschutz, Anleitung', ziel:'Hautreizungen vermeiden', details:[
+      'Von sauber nach weniger sauber; sanfte Reinigung, trocken tupfen.',
+      'Barrierecreme nach Bedarf; Inko-Material anpassen.',
+      'Dokumentation: Rötung, Schmerzen, Verträglichkeit.'
+    ]},
+    { atl:'Körperpflege', kat:'Körperpflege', symptom:'Hilfebedarf beim An-/Auskleiden', massnahme:'Ankleidetraining, Hilfsmittel, Ressourcenförderung', ziel:'Mehr Selbstständigkeit', details:[
+      'Kleidung vorbereiten; betroffene Seite zuerst/zuletzt je nach Situation.',
+      'Greifzange/Anziehhilfen; Zeit einplanen.',
+      'Dokumentation: Assistenzgrad, Fortschritt.'
     ]},
 
     // 3 Ernährung & Flüssigkeit
-    { atl: 'Essen & Trinken', kat: 'Ernährung & Flüssigkeit', symptom: 'Unzureichende Flüssigkeitsaufnahme', massnahme: 'Trinkplan + Erinnerung', ziel: 'Ausreichende Hydrierung', details: [
-      'Zielmenge festlegen; bevorzugte Getränke berücksichtigen.',
+    { atl:'Essen & Trinken', kat:'Ernährung & Flüssigkeit', symptom:'Unzureichende Flüssigkeitsaufnahme', massnahme:'Trinkplan + Erinnerung', ziel:'Ausreichende Hydrierung', details:[
+      'Zielmenge nach AO; bevorzugte Getränke berücksichtigen.',
       'Trinkgefäß griffbereit; Erinnerungsintervalle vereinbaren.',
-      'Dokumentation: Trinkprotokoll, Zeichen von Exsikkose.'
+      'Dokumentation: Trinkprotokoll, Exsikkosezeichen.'
     ]},
-    { atl: 'Essen & Trinken', kat: 'Ernährung & Flüssigkeit', symptom: 'Mangelernährungsrisiko', massnahme: 'Ernährungsprotokoll, Zwischenmahlzeiten', ziel: 'Gewicht stabil', details: [
-      'Essvorlieben, Kau-/Schluckprobleme, Übelkeit abklären.',
-      'Eiweiß-/Energieanreicherung, kleine Portionen, Snacks.',
+    { atl:'Essen & Trinken', kat:'Ernährung & Flüssigkeit', symptom:'Mangelernährungsrisiko', massnahme:'Ernährungsprotokoll, Zwischenmahlzeiten', ziel:'Gewicht stabil', details:[
+      'Kau-/Schluckprobleme, Übelkeit, Appetit abklären.',
+      'Anreicherung (Eiweiß/Energie), kleine Portionen, Snacks.',
       'Dokumentation: Intake, Gewicht, Verträglichkeit.'
+    ]},
+    { atl:'Essen & Trinken', kat:'Ernährung & Flüssigkeit', symptom:'Dysphagie (Schluckstörung) Verdacht', massnahme:'Konsistenz anpassen, Schlucktraining anleiten', ziel:'Aspirationsrisiko reduziert', details:[
+      'Aufrechte Position, kleine Bissen/Schlucke; Nachschluck anleiten.',
+      'Getränke ggf. andicken; Ruhe beim Essen.',
+      'Dokumentation: Husten/“Verschlucken”, Stimme, Sättigung.'
+    ]},
+    { atl:'Essen & Trinken', kat:'Ernährung & Flüssigkeit', symptom:'Appetitlosigkeit', massnahme:'Wunschkost, kleine Mahlzeiten, Essbegleitung', ziel:'Energiezufuhr ausreichend', details:[
+      'Essenszeiten an Tagesform; Gerüche/Reize reduzieren.',
+      'Lieblingsspeisen; soziale Unterstützung/Essbegleitung.',
+      'Dokumentation: Portionen, Gründe, Maßnahmenwirkung.'
+    ]},
+    { atl:'Essen & Trinken', kat:'Ernährung & Flüssigkeit', symptom:'Diabetes: Ernährung unsicher', massnahme:'Ernährungsberatung (AO), Blutzucker-Routine unterstützen', ziel:'BZ-Werte stabiler', details:[
+      'Kohlenhydrate erklären; regelmäßige Mahlzeiten fördern.',
+      'BZ-Messen/Protokoll unterstützen nach Plan.',
+      'Dokumentation: BZ, Hypo-/Hyperzeichen, Schulungsinhalt.'
     ]},
 
     // 4 Ausscheidung
-    { atl: 'Ausscheiden', kat: 'Ausscheidung', symptom: 'Obstipationsrisiko', massnahme: 'Flüssigkeit, Bewegung, Ernährung', ziel: 'Regelmäßige Ausscheidung', details: [
+    { atl:'Ausscheiden', kat:'Ausscheidung', symptom:'Obstipationsrisiko', massnahme:'Flüssigkeit, Bewegung, Ernährung', ziel:'Regelmäßige Ausscheidung', details:[
       'Stuhlgewohnheiten erheben; Bauchstatus beobachten.',
-      'Ballaststoffe/Bewegung fördern; Toilettenrhythmus planen.',
+      'Toilettenrhythmus; Ballaststoffe/Bewegung fördern.',
       'Dokumentation: Stuhlprotokoll, Beschwerden, Maßnahmen.'
     ]},
-    { atl: 'Ausscheiden', kat: 'Ausscheidung', symptom: 'Harninkontinenz', massnahme: 'Toilettentraining, Hautschutz, Hilfsmittel', ziel: 'Hautschutz & Sicherheit', details: [
-      'Miktionsplan/Toilettenzeiten vereinbaren; Trinkverhalten prüfen.',
-      'Hautschutz (Barriere); passendes Inko-Material wählen.',
+    { atl:'Ausscheiden', kat:'Ausscheidung', symptom:'Harninkontinenz', massnahme:'Toilettentraining, Hautschutz, Hilfsmittel', ziel:'Hautschutz & Sicherheit', details:[
+      'Miktionsplan; Trinkverhalten prüfen; Scham reduzieren.',
+      'Hautschutz; passendes Inko-Material wählen.',
       'Dokumentation: Episoden, Hautstatus, Akzeptanz.'
+    ]},
+    { atl:'Ausscheiden', kat:'Ausscheidung', symptom:'Harnwegsinfekt-Risiko', massnahme:'Trinkmenge fördern, Intimhygiene, Beobachtung', ziel:'Infekt vermeiden', details:[
+      'Anzeichen: Brennen, Geruch, Fieber, Verwirrtheit beobachten.',
+      'Hygiene von vorne nach hinten; Wechsel Inko-Material.',
+      'Dokumentation: Symptome, Temperatur, Maßnahmen.'
+    ]},
+    { atl:'Ausscheiden', kat:'Ausscheidung', symptom:'Stuhlinkontinenz', massnahme:'Hautschutz, Toilettenzeiten, Hilfsmittelmanagement', ziel:'Haut intakt, Würde gewahrt', details:[
+      'Schneller Wechsel, sanfte Reinigung, Barrierecreme.',
+      'Toilettenzeiten; Ernährung/Medikation prüfen (AO).',
+      'Dokumentation: Häufigkeit, Hautstatus, Auslöser.'
     ]},
 
     // 5 Atmung
-    { atl: 'Sich bewegen', kat: 'Atmung', symptom: 'Atemnot bei Belastung', massnahme: 'Atemübungen, Pausen, Oberkörper hoch', ziel: 'Dyspnoe reduziert', details: [
+    { atl:'Sich bewegen', kat:'Atmung', symptom:'Atemnot bei Belastung', massnahme:'Atemübungen, Pausen, Oberkörper hoch', ziel:'Dyspnoe reduziert', details:[
       'Atemerleichternde Positionen (Kutschersitz) anleiten.',
-      'Belastung dosieren, Pausen, ggf. O2 nach AO/Plan.',
-      'Dokumentation: Atemfrequenz, SpO2 (wenn vorhanden), Dyspnoe-Skala.'
+      'Belastung dosieren; ggf. O2 nach AO/Plan.',
+      'Dokumentation: Atemfrequenz, SpO2 (wenn vorhanden), Dyspnoe.'
+    ]},
+    { atl:'Sich bewegen', kat:'Atmung', symptom:'Sekret / produktiver Husten', massnahme:'Inhalation (AO), Atemtherapie, Flüssigkeit fördern', ziel:'Sekret gelöst', details:[
+      'Inhalation nach Plan; Lippenbremse, PEP nach AO.',
+      'Ausreichend trinken, wenn möglich; Mobilisation unterstützen.',
+      'Dokumentation: Auswurf, Atemgeräusche, Wirkung.'
+    ]},
+    { atl:'Sich bewegen', kat:'Atmung', symptom:'Atemmuster ineffektiv (flach)', massnahme:'Atemlenkung, Positionierung, Entspannung', ziel:'Tiefere Atmung', details:[
+      'Handkontakt zur Atemlenkung; ruhige Umgebung.',
+      'Oberkörperhochlagerung; Pausen bei Aktivität.',
+      'Dokumentation: Dyspnoe, Anstrengung, Wirkung.'
     ]},
 
     // 6 Schmerz
-    { atl: 'Körperpflege', kat: 'Schmerz', symptom: 'Schmerzen bei Bewegung', massnahme: 'Schmerzassessment, Lagerung, Wärme/Kälte nach Bedarf', ziel: 'Schmerz < 3/10', details: [
-      'Assessment (NRS) vor/nach Maßnahme; Trigger identifizieren.',
-      'Lagerung/Entlastung; nicht-medikamentöse Maßnahmen nutzen.',
-      'Dokumentation: NRS, Wirkung, Nebenwirkungen/Unverträglichkeit.'
+    { atl:'Körperpflege', kat:'Schmerz', symptom:'Schmerzen bei Bewegung', massnahme:'Schmerzassessment, Lagerung, Wärme/Kälte nach Bedarf', ziel:'Schmerz < 3/10', details:[
+      'NRS vor/nach Maßnahme; Trigger identifizieren.',
+      'Entlastung, Wärme/Kälte (AO), Ablenkung/Atmung.',
+      'Dokumentation: NRS, Wirkung, Nebenwirkungen.'
+    ]},
+    { atl:'Körperpflege', kat:'Schmerz', symptom:'Chronischer Schmerz (dauerhaft)', massnahme:'Schmerztagebuch, Aktivitätsplanung, Entspannung', ziel:'Besserer Umgang mit Schmerz', details:[
+      'Pacing: Aktivität/Erholung balancieren; Überlastung vermeiden.',
+      'Entspannung/Atmung; Edukation nach AO.',
+      'Dokumentation: Verlauf, Auslöser, Wirksamkeit.'
+    ]},
+    { atl:'Körperpflege', kat:'Schmerz', symptom:'Schmerz bei Wundversorgung', massnahme:'Vorbereitung, Analgesie nach AO, atraumatisch versorgen', ziel:'Schmerz reduziert', details:[
+      'Zeitpunkt/Analgesie abstimmen; sanftes Vorgehen.',
+      'Ablenkung; Verbandmaterial passend wählen.',
+      'Dokumentation: Schmerz, Material, Wundstatus.'
     ]},
 
     // 7 Wunde & Haut
-    { atl: 'Körperpflege', kat: 'Wunde & Haut', symptom: 'Dekubitusrisiko', massnahme: 'Positionswechsel, Hautkontrolle, Druckentlastung', ziel: 'Haut intakt', details: [
+    { atl:'Körperpflege', kat:'Wunde & Haut', symptom:'Dekubitusrisiko', massnahme:'Positionswechsel, Hautkontrolle, Druckentlastung', ziel:'Haut intakt', details:[
       'Risikoeinschätzung; Lagerungsintervall festlegen.',
-      'Druckentlastende Hilfsmittel prüfen; Haut täglich inspizieren.',
+      'Druckentlastende Hilfsmittel; Haut täglich inspizieren.',
       'Dokumentation: Lokalisation, Hautzustand, Lagerungsplan.'
     ]},
-    { atl: 'Körperpflege', kat: 'Wunde & Haut', symptom: 'Hauttrockenheit', massnahme: 'Rückfettende Pflege', ziel: 'Haut geschmeidig', details: [
-      'pH-neutrale Reinigung; rückfettend eincremen (v. a. Unterschenkel).',
-      'Juckreiz/Exkoriationen beobachten; Nägel kurz halten.',
-      'Dokumentation: Hautzustand, Reaktion, Verträglichkeit.'
+    { atl:'Körperpflege', kat:'Wunde & Haut', symptom:'Dekubitus Grad 1 (Rötung)', massnahme:'Druckentlastung, Hautschutz, Beobachtung', ziel:'Rötung rückläufig', details:[
+      'Druck vermeiden; Lagerung anpassen; Reibung reduzieren.',
+      'Hautschutz, Feuchtigkeitsmanagement.',
+      'Dokumentation: Fläche, Farbe, Wärme, Schmerz.'
+    ]},
+    { atl:'Körperpflege', kat:'Wunde & Haut', symptom:'Intertrigo-Risiko (Hautfalten)', massnahme:'Hautfalten trocken halten, Schutz, Kontrolle', ziel:'Entzündung vermeiden', details:[
+      'Sanft reinigen, gründlich trocknen; ggf. Schutztextilien.',
+      'Barriere/Antimykotisch nur nach AO.',
+      'Dokumentation: Rötung, Geruch, Juckreiz.'
+    ]},
+    { atl:'Körperpflege', kat:'Wunde & Haut', symptom:'Hauttrockenheit / Juckreiz', massnahme:'Rückfettende Pflege, Trigger reduzieren', ziel:'Haut geschmeidig', details:[
+      'pH-neutrale Reinigung; rückfettend eincremen.',
+      'Nägel kurz; Kratzen vermeiden; Kleidung weich.',
+      'Dokumentation: Hautzustand, Verträglichkeit.'
+    ]},
+    { atl:'Körperpflege', kat:'Wunde & Haut', symptom:'Wundheilungsrisiko (z.B. diabetisch)', massnahme:'Wundkontrolle, Druckschutz, Edukation', ziel:'Wunde stabil/verbessert', details:[
+      'Druck vermeiden; Fuß-/Wundkontrolle; Hygiene.',
+      'BZ-Management nach Plan; Schuhwerk prüfen.',
+      'Dokumentation: Wundrand, Exsudat, Geruch, Schmerz.'
     ]},
 
     // 8 Schlaf & Ruhe
-    { atl: 'Körperpflege', kat: 'Schlaf & Ruhe', symptom: 'Schlafstörung', massnahme: 'Schlafhygiene, Tagesstruktur, Reize reduzieren', ziel: 'Erholsamer Schlaf', details: [
+    { atl:'Körperpflege', kat:'Schlaf & Ruhe', symptom:'Schlafstörung (Ein-/Durchschlaf)', massnahme:'Schlafhygiene, Tagesstruktur, Reize reduzieren', ziel:'Erholsamer Schlaf', details:[
       'Abendroutine; Licht/Lärm reduzieren; Tagschlaf dosieren.',
-      'Entspannung/Atmung; Schmerz/Harndrang als Ursache prüfen.',
-      'Dokumentation: Einschlafzeit, Durchschlafen, Einflussfaktoren.'
+      'Schmerz/Harndrang als Ursache prüfen; Entspannung.',
+      'Dokumentation: Schlafprotokoll, Einflussfaktoren.'
+    ]},
+    { atl:'Körperpflege', kat:'Schlaf & Ruhe', symptom:'Tag-Nacht-Umkehr', massnahme:'Tagesaktivierung, Lichtsteuerung, Routinen', ziel:'Tagesrhythmus stabilisiert', details:[
+      'Tagsüber Aktivität/Licht; abends beruhigende Rituale.',
+      'Koffein/Spätmahlzeiten reduzieren.',
+      'Dokumentation: Ruhezeiten, Aktivität, Wirkung.'
+    ]},
+    { atl:'Körperpflege', kat:'Schlaf & Ruhe', symptom:'Unruhe nachts (Umherwandern)', massnahme:'Sicherheitscheck, Orientierung, Beruhigung', ziel:'Nächtliche Sicherheit erhöht', details:[
+      'Stolperfallen entfernen; Nachtlicht; Klingel erreichbar.',
+      'Beruhigende Ansprache; Toilettenangebot.',
+      'Dokumentation: Auslöser, Zeiten, Maßnahmen.'
     ]},
 
     // 9 Psyche & Kommunikation
-    { atl: 'Kommunizieren', kat: 'Psyche & Kommunikation', symptom: 'Angst/Unruhe', massnahme: 'Orientierung, Gespräch, Struktur', ziel: 'Ruhe & Sicherheit', details: [
-      'Validieren, beruhigend sprechen; Trigger identifizieren.',
-      'Tagesstruktur sichtbar machen; Bezugspersonen einbinden.',
+    { atl:'Kommunizieren', kat:'Psyche & Kommunikation', symptom:'Angst/Unruhe', massnahme:'Orientierung, Gespräch, Struktur', ziel:'Ruhe & Sicherheit', details:[
+      'Validieren; ruhige Kommunikation; Trigger identifizieren.',
+      'Tagesstruktur sichtbar; Bezugspersonen einbinden.',
       'Dokumentation: Auslöser, Wirkung der Interventionen.'
+    ]},
+    { atl:'Kommunizieren', kat:'Psyche & Kommunikation', symptom:'Depressive Stimmung / Antrieb vermindert', massnahme:'Aktivierung, Ressourcenarbeit, Gespräche', ziel:'Mehr Antrieb/Teilhabe', details:[
+      'Kleine erreichbare Ziele; Tagesplan; Erfolgserlebnisse.',
+      'Soziale Kontakte fördern; ggf. Fachstelle nach AO.',
+      'Dokumentation: Stimmung, Aktivität, Rückmeldung.'
+    ]},
+    { atl:'Kommunizieren', kat:'Psyche & Kommunikation', symptom:'Aggression/Abwehr bei Pflege', massnahme:'Deeskalation, Wahlmöglichkeiten, Tempo anpassen', ziel:'Kooperation verbessert', details:[
+      'Trigger vermeiden; vorher ankündigen; kurze Schritte.',
+      'Validation; Pausen; ggf. Teamabsprachen.',
+      'Dokumentation: Situation, Auslöser, erfolgreiche Strategien.'
     ]},
 
     // 10 Kognition & Orientierung
-    { atl: 'Kommunizieren', kat: 'Kognition & Orientierung', symptom: 'Desorientierung (Zeit/Ort)', massnahme: 'Orientierungshilfen, Tagesplan, Validation', ziel: 'Orientierung verbessert', details: [
-      'Kalender/Uhr, Namensschilder, bekannte Gegenstände nutzen.',
-      'Kurze, klare Sätze; Wiederholungen; Validation bei Demenz.',
+    { atl:'Kommunizieren', kat:'Kognition & Orientierung', symptom:'Desorientierung (Zeit/Ort)', massnahme:'Orientierungshilfen, Tagesplan, Validation', ziel:'Orientierung verbessert', details:[
+      'Uhr/Kalender, Namensschilder, bekannte Gegenstände nutzen.',
+      'Kurze klare Sätze; Wiederholungen; Validation.',
       'Dokumentation: Orientierung, Kooperation, Verhalten.'
+    ]},
+    { atl:'Kommunizieren', kat:'Kognition & Orientierung', symptom:'Gedächtnisprobleme (Vergesslichkeit)', massnahme:'Gedächtnisstützen, Routinen, Reminder', ziel:'Alltag strukturierter', details:[
+      'Notizzettel, Checklisten, fixe Abläufe.',
+      'Medikamenten-/Termin-Reminder; Angehörige einbinden.',
+      'Dokumentation: Selbstständigkeit, Fehlerquellen.'
+    ]},
+    { atl:'Kommunizieren', kat:'Kognition & Orientierung', symptom:'Delir-Risiko (akute Verwirrtheit)', massnahme:'Reorientierung, Flüssigkeit, Schlaf fördern (AO)', ziel:'Delirzeichen reduziert', details:[
+      'Reorientierung häufig; Brille/Hörgerät; Reize dosieren.',
+      'Schmerz/Infekt/Dehydratation abklären (AO).',
+      'Dokumentation: Verlauf, Auslöser, Beobachtungen.'
     ]},
 
     // 11 Sicherheit & Sturz
-    { atl: 'Sich bewegen', kat: 'Sicherheit & Sturz', symptom: 'Sturzrisiko / Schwindel', massnahme: 'Sturzprophylaxe, Hilfsmittel prüfen', ziel: 'Stürze vermeiden', details: [
-      'Umgebung sichern (Licht, Stolperfallen); rutschfeste Schuhe.',
-      'Orthostase prüfen; Aufstehen langsam; Hilfsmittel einstellen.',
+    { atl:'Sich bewegen', kat:'Sicherheit & Sturz', symptom:'Sturzrisiko / Schwindel', massnahme:'Sturzprophylaxe, Hilfsmittel prüfen', ziel:'Stürze vermeiden', details:[
+      'Umgebung sichern; rutschfeste Schuhe; Nachtlicht.',
+      'Orthostase beachten; langsam aufstehen; Hilfsmittel einstellen.',
       'Dokumentation: Beinahe-Stürze, Maßnahmen, Wirksamkeit.'
+    ]},
+    { atl:'Sich bewegen', kat:'Sicherheit & Sturz', symptom:'Sturz nach Ereignis (Post-Fall)', massnahme:'Sturzassessment, Umfeldanpassung, Beobachtung', ziel:'Folgestürze vermeiden', details:[
+      'Schmerzen/Verletzung prüfen; Arztkontakt nach AO.',
+      'Ursachenanalyse; Maßnahmenplan (Umgebung/Hilfsmittel).',
+      'Dokumentation: Hergang, Befund, Maßnahmen.'
+    ]},
+    { atl:'Sich bewegen', kat:'Sicherheit & Sturz', symptom:'Unsichere Medikation (Sedierung)', massnahme:'Beobachtung, Rückmeldung an Arzt (AO), Sicherheitsmaßnahmen', ziel:'Sicherheit erhöht', details:[
+      'Schläfrigkeit, Gangunsicherheit beobachten.',
+      'Rücksprache nach AO; Sturzprophylaxe verstärken.',
+      'Dokumentation: Symptome, Zeiten, Rückmeldungen.'
     ]},
 
     // 12 Medikation
-    { atl: 'Essen & Trinken', kat: 'Medikation', symptom: 'Unregelmäßige Medikamenteneinnahme', massnahme: 'Mediplan, Einnahme-Reminder, Kontrolle', ziel: 'Adhärenz verbessert', details: [
-      'Mediplan erklären; Einnahmezeiten mit Alltag koppeln.',
-      'Pillendose/Reminder; Nebenwirkungen/Wechselwirkungen beobachten.',
+    { atl:'Essen & Trinken', kat:'Medikation', symptom:'Unregelmäßige Medikamenteneinnahme', massnahme:'Mediplan, Einnahme-Reminder, Kontrolle', ziel:'Adhärenz verbessert', details:[
+      'Mediplan erklären; Einnahmezeiten alltagsnah planen.',
+      'Pillendose/Reminder; Nebenwirkungen beobachten.',
       'Dokumentation: Einnahme, Auffälligkeiten, Rückmeldung.'
+    ]},
+    { atl:'Essen & Trinken', kat:'Medikation', symptom:'Nebenwirkungsbeobachtung erforderlich', massnahme:'Monitoring, Symptomcheck, Rückmeldung (AO)', ziel:'Nebenwirkungen früh erkannt', details:[
+      'Schwindel, Übelkeit, Obstipation, Müdigkeit etc. beobachten.',
+      'Einnahme korrekt; Wechselwirkungen nach AO abklären.',
+      'Dokumentation: Symptome, Zeitpunkt, Maßnahmen.'
+    ]},
+    { atl:'Essen & Trinken', kat:'Medikation', symptom:'Polypharmazie / Einnahme unsicher', massnahme:'Medikationscheck unterstützen (AO), Strukturierung', ziel:'Einnahme sicherer', details:[
+      'Sortiersystem; Liste aktuell halten; Doppelmedikation vermeiden (AO).',
+      'Apotheke/Arztkontakt nach AO.',
+      'Dokumentation: Planversion, Änderungen, Verständnis.'
     ]},
 
     // 13 Prophylaxen
-    { atl: 'Körperpflege', kat: 'Prophylaxen', symptom: 'Thromboserisiko', massnahme: 'Aktivierung, Wadenpumpe, Kompression nach AO', ziel: 'Thrombose vermeiden', details: [
+    { atl:'Körperpflege', kat:'Prophylaxen', symptom:'Thromboserisiko', massnahme:'Aktivierung, Wadenpumpe, Kompression nach AO', ziel:'Thrombose vermeiden', details:[
       'Frühmobilisation; Venengymnastik anleiten.',
       'Kompression/Heparin nur nach AO/Verordnung.',
       'Dokumentation: Schwellung/Schmerz, Umfang, Compliance.'
     ]},
+    { atl:'Körperpflege', kat:'Prophylaxen', symptom:'Pneumonieprophylaxe erforderlich', massnahme:'Atemtraining, Mobilisation, Inhalation nach AO', ziel:'Pneumonie vermeiden', details:[
+      'Tiefes Durchatmen, Lippenbremse; Positionswechsel.',
+      'Mobilisation; Flüssigkeit fördern, wenn möglich.',
+      'Dokumentation: Atemstatus, Sekret, Wirkung.'
+    ]},
+    { atl:'Körperpflege', kat:'Prophylaxen', symptom:'Dekubitusprophylaxe erforderlich', massnahme:'Lagerungsplan, Druckentlastung, Hautpflege', ziel:'Haut intakt', details:[
+      'Risikoeinschätzung; Lagerungsintervalle festlegen.',
+      'Druckentlastung; Feuchtigkeitsmanagement.',
+      'Dokumentation: Hautbefund, Lagerungen, Hilfsmittel.'
+    ]},
+    { atl:'Körperpflege', kat:'Prophylaxen', symptom:'Kontrakturprophylaxe erforderlich', massnahme:'Bewegung, Positionierung, Aktivierung', ziel:'Kontrakturen vermeiden', details:[
+      'Aktive/passive Bewegungen; Alltag integrieren.',
+      'Positionierung; Hilfsmittel prüfen.',
+      'Dokumentation: Beweglichkeit, Schmerz, Mitarbeit.'
+    ]},
   ];
+
 
 
   const demoAnamnese = demoTemplates.slice(0, 6); // Vorschläge aus Anamnese
