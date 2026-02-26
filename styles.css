@@ -610,7 +610,7 @@ textarea.control:focus {
 
 .patient-row{
   display:grid;
-  grid-template-columns: minmax(90px, 2fr) 160px 130px 360px; /* Info | Zeit | Buttons */
+  grid-template-columns: minmax(360px, 2.2fr) 160px 130px 360px; /* Info | Zeit | Buttons */
   align-items:center;
   gap: 14px;
   padding: 12px 12px;
@@ -1661,3 +1661,17 @@ html.pp-modal-open body{overflow:hidden;}
   .pp-modal .pp-table__head .pp-table__cell:nth-child(n+3),
   .pp-modal .pp-table__row .pp-table__cell:nth-child(n+3){display:none;}
 }
+
+
+/* ===== OVERRIDE: Uhrzeit weiter nach links (patient-row) =====
+   Erklärung:
+   - Entfernt die "Leer-Spalte" (130px), die alles nach rechts drückt
+   - Macht Info-Spalte kompakter -> Zeit rückt sichtbar nach links
+*/
+.patient-row{
+  grid-template-columns: minmax(220px, 2.2fr) 180px 1fr !important; /* Info | Zeit+Status | Actions */
+  column-gap: 12px !important;
+}
+.patient-info{ min-width: 0; } /* verhindert Überbreite durch lange Namen/Adresse */
+.patient-time{ justify-self: start !important; white-space: nowrap; }
+.patient-actions{ justify-self: end !important; }
