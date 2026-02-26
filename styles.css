@@ -610,7 +610,7 @@ textarea.control:focus {
 
 .patient-row{
   display:grid;
-  grid-template-columns: minmax(120px, 2.2fr) 160px 130px 360px; /* Info | Zeit | Buttons */
+  grid-template-columns: minmax(90px, 2fr) 160px 130px 360px; /* Info | Zeit | Buttons */
   align-items:center;
   gap: 14px;
   padding: 12px 12px;
