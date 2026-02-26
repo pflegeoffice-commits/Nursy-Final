@@ -100,14 +100,7 @@ const actions = createEl("div", "patient-actions");
   msgBtn.type = "button";
   msgBtn.addEventListener("click", () => alert("Demo: Nachricht senden"));
 
-    const planBtn = createEl("button", "btn btn--soft", "Pflegeplanung");
-  planBtn.type = "button";
-  planBtn.addEventListener("click", () => {
-    try{ localStorage.setItem("nursy_active_patient_id", p.id); }catch(e){}
-    window.location.href = "pflegeplanung.html";
-  });
-
-  actions.append(navBtn, msgBtn, planBtn);
+  actions.append(navBtn, msgBtn);
 
   time.appendChild(status);
   row.append(info, time, actions);
