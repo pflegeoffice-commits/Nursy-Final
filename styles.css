@@ -610,7 +610,7 @@ textarea.control:focus {
 
 .patient-row{
   display:grid;
-  grid-template-columns: minmax(260px, 2.1fr) 220px 1fr; /* Info | Zeit | Buttons */
+  grid-template-columns: minmax(320px, 2.2fr) 160px 1fr; /* Info | Zeit | Buttons */
   align-items:center;
   gap: 14px;
   padding: 12px 12px;
@@ -1663,15 +1663,7 @@ html.pp-modal-open body{overflow:hidden;}
 }
 
 
-/* ===== FIX patient-time layout (Zeit + Status in einem Feld) ===== */
-.patient-time{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap: 10px;
-  white-space: nowrap;
-}
-.patient-time .status-pill{
-  margin-left: 10px;
-  white-space: nowrap;
+/* ===== FIX: Entferne leere Grid-Spalte (Zeit rückt nach links) ===== */
+.patient-row{
+  grid-template-columns: minmax(320px, 2.2fr) 160px 1fr !important;
 }
