@@ -610,7 +610,7 @@ textarea.control:focus {
 
 .patient-row{
   display:grid;
-  grid-template-columns: minmax(360px, 2.2fr) 160px 130px 360px; /* Info | Zeit | Buttons */
+  grid-template-columns: minmax(360px, 2.2fr) 200px 1fr; /* Info | Zeit | Buttons */
   align-items:center;
   gap: 14px;
   padding: 12px 12px;
@@ -644,7 +644,7 @@ textarea.control:focus {
   width: auto;
   justify-self:end;
 }
-.patient-actions .btn{ flex:1; }
+.patient-actions .btn{ flex: 0 0 auto; }
 .btn.small{ height: 44px; }
 
 .secondary{
@@ -1663,34 +1663,13 @@ html.pp-modal-open body{overflow:hidden;}
 }
 
 
-/* ===== FINAL LAYOUT FIX (Meine Klienten) =====
-   Grid war 4-spaltig (Info | Zeit | leer | Buttons) obwohl nur 3 Elemente existieren.
-   -> Buttons wurden in 130px-Spalte gequetscht und haben sich optisch überlagert.
-   Jetzt: 3 Spalten (Info | Zeit | Actions) + Actions bekommt genug Platz.
-*/
+/* ===== FIX: patient-row 3-Spalten Layout (Info | Zeit | Actions) ===== */
 .patient-row{
-  grid-template-columns: minmax(280px, 2.2fr) 160px 1fr !important;
-  column-gap: 16px !important;
+  grid-template-columns: minmax(360px, 2.2fr) 200px 1fr !important;
 }
-
 .patient-actions{
-  justify-self: stretch !important;
-  display: flex !important;
-  justify-content: flex-end !important;
-  gap: 14px !important;
+  justify-self: end !important;
 }
-
 .patient-actions .btn{
   flex: 0 0 auto !important;
-  min-width: 140px;
-}
-
-@media (max-width: 860px){
-  .patient-row{
-    grid-template-columns: 1fr !important;
-    row-gap: 12px !important;
-  }
-  .patient-time{ width: 100% !important; justify-content: center !important; }
-  .patient-actions{ justify-content: flex-start !important; flex-wrap: wrap !important; }
-  .patient-actions .btn{ min-width: 0; flex: 1 1 140px !important; }
 }
