@@ -1663,15 +1663,34 @@ html.pp-modal-open body{overflow:hidden;}
 }
 
 
-/* ===== OVERRIDE: Uhrzeit weiter nach links (patient-row) =====
-   Erklärung:
-   - Entfernt die "Leer-Spalte" (130px), die alles nach rechts drückt
-   - Macht Info-Spalte kompakter -> Zeit rückt sichtbar nach links
+/* ===== FINAL LAYOUT FIX (Meine Klienten) =====
+   Grid war 4-spaltig (Info | Zeit | leer | Buttons) obwohl nur 3 Elemente existieren.
+   -> Buttons wurden in 130px-Spalte gequetscht und haben sich optisch überlagert.
+   Jetzt: 3 Spalten (Info | Zeit | Actions) + Actions bekommt genug Platz.
 */
 .patient-row{
-  grid-template-columns: minmax(220px, 2.2fr) 180px 1fr !important; /* Info | Zeit+Status | Actions */
-  column-gap: 12px !important;
+  grid-template-columns: minmax(280px, 2.2fr) 160px 1fr !important;
+  column-gap: 16px !important;
 }
-.patient-info{ min-width: 0; } /* verhindert Überbreite durch lange Namen/Adresse */
-.patient-time{ justify-self: start !important; white-space: nowrap; }
-.patient-actions{ justify-self: end !important; }
+
+.patient-actions{
+  justify-self: stretch !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  gap: 14px !important;
+}
+
+.patient-actions .btn{
+  flex: 0 0 auto !important;
+  min-width: 140px;
+}
+
+@media (max-width: 860px){
+  .patient-row{
+    grid-template-columns: 1fr !important;
+    row-gap: 12px !important;
+  }
+  .patient-time{ width: 100% !important; justify-content: center !important; }
+  .patient-actions{ justify-content: flex-start !important; flex-wrap: wrap !important; }
+  .patient-actions .btn{ min-width: 0; flex: 1 1 140px !important; }
+}
