@@ -15,40 +15,8 @@ function isoDate(d = new Date()) {
   return `${y}-${m}-${day}`;
 }
 
-function seedDemo() {
-  const today = isoDate();
-  const tomorrow = isoDate(new Date(Date.now() + 86400000));
-  return [
-    {
-      id: "p1",
-      name: "Patient 1",
-      address: "Hauptstraße 12, 4020 Linz",
-      active: true,
-      visits: [{ date: today, from: "12:00", to: "13:00" }]
-    },
-    {
-      id: "p2",
-      name: "Patient 2",
-      address: "Musterweg 3, 4040 Linz",
-      active: true,
-      visits: [{ date: today, from: "15:00", to: "16:00" }]
-    },
-    {
-      id: "p3",
-      name: "Patient 3",
-      address: "Bahnhofstraße 8, 4020 Linz",
-      active: true,
-      visits: [{ date: tomorrow, from: "09:30", to: "10:15" }]
-    }
-  ];
-}
 
-function loadPatients() {
-  const raw = safeStorage.get(STORAGE_KEY);
-  if (raw) {
-    try { return JSON.parse(raw); } catch (e) {}
-  }
-  const demo = seedDemo();
+  const demo = 
   safeStorage.set(STORAGE_KEY, JSON.stringify(demo));
   return demo;
 }
