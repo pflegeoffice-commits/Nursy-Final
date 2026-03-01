@@ -1663,11 +1663,19 @@ html.pp-modal-open body{overflow:hidden;}
 }
 
 
-/* ===== Anfragen: Buttons kleiner & stärker abgerundet ===== */
-.req-actions .btn{
+/* ===== Anfragen: Obere Buttons ebenfalls rund + mehr Abstand ===== */
+.req-toolbar__actions .btn{
   border-radius: 999px !important;
-  padding: 6px 14px !important;
+  padding: 6px 16px !important;
   font-size: 13px !important;
-  min-height: 32px !important;
+  min-height: 34px !important;
+}
+
+.req-toolbar{
+  margin-bottom: 18px !important;
+}
+
+.req-toolbar__actions{
+  gap: 14px !important;
 }
 
