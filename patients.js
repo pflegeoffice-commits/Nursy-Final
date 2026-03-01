@@ -15,28 +15,48 @@ function isoDate(d = new Date()) {
   return `${y}-${m}-${day}`;
 }
 
+function seedDemo() {
+  const today = isoDate();
+  const tomorrow = isoDate(new Date(Date.now() + 86400000));
+  return [
+    {
+      id: "p1",
+      name: "Patient 1",
+      address: "Hauptstraße 12, 4020 Linz",
+      active: true,
+      visits: [{ date: today, from: "12:00", to: "13:00" }]
+    },
+    {
+      id: "p2",
+      name: "Patient 2",
+      address: "Musterweg 3, 4040 Linz",
+      active: true,
+      visits: [{ date: today, from: "15:00", to: "16:00" }]
+    },
+    {
+      id: "p3",
+      name: "Patient 3",
+      address: "Bahnhofstraße 8, 4020 Linz",
+      active: true,
+      visits: [{ date: tomorrow, from: "09:30", to: "10:15" }]
+    }
+  ];
+}
 
 function loadPatients() {
   const raw = safeStorage.get(STORAGE_KEY);
   if (raw) {
-    try {
-      const parsed = JSON.parse(raw);
-      return Array.isArray(parsed) ? parsed : [];
-    } catch (e) {
-      return [];
-    }
+    try { return JSON.parse(raw); } catch (e) {}
   }
-  // Keine Demo-Patienten mehr
-  return [];
+  const demo = seedDemo();
+  safeStorage.set(STORAGE_KEY, JSON.stringify(demo));
+  return demo;
 }
 
-
 function resetDemo() {
-  // entfernt alle gespeicherten Patienten (falls man "Zurücksetzen" nutzt)
   safeStorage.remove(STORAGE_KEY);
   render();
 }
-
 
 function createEl(tag, cls, text) {
   const el = document.createElement(tag);
@@ -87,22 +107,8 @@ const actions = createEl("div", "patient-actions");
   return row;
 }
 
-
-function cleanupLegacyDemoPatients(patients){
-  // Entfernt alte Demo-Einträge ("Patient 1", "Patient 2", ...) aus früheren Versionen
-  const cleaned = (patients || []).filter(p => {
-    const n = String(p?.name || '').trim();
-    return !(n.match(/^Patient\s*\d+$/i));
-  });
-  if (cleaned.length !== (patients || []).length) {
-    try { safeStorage.set(STORAGE_KEY, JSON.stringify(cleaned)); } catch(e) {}
-  }
-  return cleaned;
-}
-
 function render() {
-  let patients = loadPatients();
-  patients = cleanupLegacyDemoPatients(patients);
+  const patients = loadPatients();
   const today = isoDate();
 
   const todayList = document.getElementById("todayList");
@@ -162,8 +168,7 @@ function openTimeModal(patientId, date){
   const { modal, from, to, hint } = getModalEls();
   if (!modal || !from || !to) return;
 
-  let patients = loadPatients();
-  patients = cleanupLegacyDemoPatients(patients);
+  const patients = loadPatients();
   const p = patients.find(x => x.id === patientId);
   const v = (p?.visits || []).find(x => x.date === date);
 
@@ -208,8 +213,7 @@ function saveTimeModal(){
     return;
   }
 
-  let patients = loadPatients();
-  patients = cleanupLegacyDemoPatients(patients);
+  const patients = loadPatients();
   const p = patients.find(x => x.id === modalState.patientId);
   if (!p) return;
 
@@ -268,8 +272,7 @@ function savePatients(patients){
 
 
 function undoCancelVisit(patientId, date){
-  let patients = loadPatients();
-  patients = cleanupLegacyDemoPatients(patients);
+  const patients = loadPatients();
   const p = patients.find(x => x.id === patientId);
   if (!p) return;
   const v = (p.visits || []).find(x => x.date === date);
@@ -283,8 +286,7 @@ function updateCancelUI(){
   const hint = document.getElementById("timeHint");
   if(!btn && !hint) return;
 
-  let patients = loadPatients();
-  patients = cleanupLegacyDemoPatients(patients);
+  const patients = loadPatients();
   const {v} = getVisitByCtx(__currentEdit, patients);
   const cancelled = !!(v && v.cancelled);
 
@@ -302,8 +304,7 @@ function updateCancelUI(){
 
 function toggleCancelCurrentVisit(){
   if(!__currentEdit) return;
-  let patients = loadPatients();
-  patients = cleanupLegacyDemoPatients(patients);
+  const patients = loadPatients();
   const {v} = getVisitByCtx(__currentEdit, patients);
   if(!v) return;
 
