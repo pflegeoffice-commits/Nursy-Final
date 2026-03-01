@@ -1663,19 +1663,28 @@ html.pp-modal-open body{overflow:hidden;}
 }
 
 
-/* ===== Anfragen: Obere Buttons ebenfalls rund + mehr Abstand ===== */
-.req-toolbar__actions .btn{
-  border-radius: 999px !important;
-  padding: 6px 16px !important;
-  font-size: 13px !important;
-  min-height: 34px !important;
-}
-
+/* ===== Anfragen – obere Leiste sauber ausrichten ===== */
 .req-toolbar{
-  margin-bottom: 18px !important;
+  display:flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 20px !important;
 }
 
 .req-toolbar__actions{
-  gap: 14px !important;
+  display:flex !important;
+  gap:16px !important;
+  align-items:center !important;
+}
+
+.req-toolbar__actions .btn{
+  border-radius:999px !important;
+  padding:6px 18px !important;
+  font-size:13px !important;
+  min-height:34px !important;
+}
+
+.req-count{
+  font-weight:600;
 }
 
