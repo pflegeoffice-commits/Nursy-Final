@@ -332,6 +332,58 @@ function syncPatientsFromMeinePatienten(){
   const frequencyOptions = ['Bitte wählen', '1x täglich', '2x täglich', '3x täglich', 'Wöchentlich', 'Bei Bedarf'];
   const evalOptions = ['Bitte wählen', 'täglich', 'alle 2 Tage', 'wöchentlich', 'bei Änderung'];
 
+  // ===== Patientenspezifische Speicherung der Pflegeplanung =====
+  const CAREPLAN_PREFIX = 'nursy_careplans_'; // Key: nursy_careplans_<patientId>
+
+  function getActivePatientId(){
+    try {
+      return localStorage.getItem('nursy_active_patient_id') || document.getElementById('patientSelect')?.value || 'default';
+    } catch(e){
+      return document.getElementById('patientSelect')?.value || 'default';
+    }
+  }
+
+  function getCareplanKey(){
+    return CAREPLAN_PREFIX + getActivePatientId();
+  }
+
+  function loadCareplan(){
+    const planBody = document.getElementById('planBody');
+    if (!planBody) return;
+
+    planBody.innerHTML = '';
+    let rows = [];
+    try {
+      rows = JSON.parse(localStorage.getItem(getCareplanKey()) || '[]');
+      if (!Array.isArray(rows)) rows = [];
+    } catch(e){ rows = []; }
+
+    rows.forEach((p) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="pp-date">${p.planned || ''}</td>
+        <td>${p.diagnose || ''}</td>
+        <td>${p.massnahme || ''}</td>
+        <td>${p.ziel || ''}</td>
+        <td class="pp-date pp-date--right">${p.evaluation || ''}</td>
+      `;
+      planBody.appendChild(tr);
+      // patientenspezifisch speichern
+      saveCareplanRow({ planned: plannedStr, diagnose, massnahme, ziel, evaluation: evalStr });
+    });
+  }
+
+  function saveCareplanRow(row){
+    let rows = [];
+    try {
+      rows = JSON.parse(localStorage.getItem(getCareplanKey()) || '[]');
+      if (!Array.isArray(rows)) rows = [];
+    } catch(e){ rows = []; }
+    rows.push(row);
+    try { localStorage.setItem(getCareplanKey(), JSON.stringify(rows)); } catch(e){}
+  }
+
+
   function getActivePatientLabel() {
     const sel = qs('#patientSelect');
     if (!sel) return 'Name, Geb. Datum';
