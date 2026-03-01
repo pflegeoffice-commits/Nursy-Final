@@ -9,68 +9,6 @@
   const qs = (sel, el = document) => el.querySelector(sel);
   const qsa = (sel, el = document) => Array.from(el.querySelectorAll(sel));
 
-  // ===== Pflegeplanung: patientenspezifische Anzeige/Speicherung =====
-  const CAREPLAN_PREFIX = 'nursy_careplans_'; // Key: nursy_careplans_<patientId>
-
-  function getActivePatientId(){
-    // Primär: global gesetzter aktiver Patient (aus "Meine Patienten")
-    try{
-      const id = localStorage.getItem('nursy_active_patient_id');
-      if (id) return id;
-    }catch(e){}
-    // Fallback: Dropdown
-    const sel = document.getElementById('patientSelect');
-    return (sel && sel.value) ? sel.value : 'default';
-  }
-
-  function careplanKey(){
-    return CAREPLAN_PREFIX + getActivePatientId();
-  }
-
-  function readCareplan(){
-    try{
-      const raw = localStorage.getItem(careplanKey());
-      const arr = raw ? JSON.parse(raw) : [];
-      return Array.isArray(arr) ? arr : [];
-    }catch(e){
-      return [];
-    }
-  }
-
-  function writeCareplan(arr){
-    try{ localStorage.setItem(careplanKey(), JSON.stringify(arr)); }catch(e){}
-  }
-
-  function appendCareplanRowToTable(row){
-    const planBody = document.getElementById('planBody');
-    if (!planBody) return;
-
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td class="pp-date">${row.planned || ''}</td>
-      <td>${row.diagnose || ''}</td>
-      <td>${row.massnahme || ''}</td>
-      <td>${row.ziel || ''}</td>
-      <td class="pp-date pp-date--right">${row.evaluation || ''}</td>
-    `;
-    planBody.appendChild(tr);
-  }
-
-  function renderCareplanForActivePatient(){
-    const planBody = document.getElementById('planBody');
-    if (!planBody) return;
-    planBody.innerHTML = '';
-    const rows = readCareplan();
-    rows.forEach(appendCareplanRowToTable);
-  }
-
-  function saveCareplanRow(row){
-    const rows = readCareplan();
-    rows.push(row);
-    writeCareplan(rows);
-  }
-
-
   const demoTemplates = [
     { symptom: 'Eingeschränkte Mobilität / unsicherer Gang', massnahme: 'Mobilisation & Gehtraining', ziel: 'Sicheres Gehen' },
     { symptom: 'Teilweise Unterstützung bei Körperpflege', massnahme: 'Anleitung + Unterstützung morgens/abends', ziel: 'Selbstständigkeit erhalten' },
@@ -377,8 +315,6 @@
 
   function init() {
     wireOpenButtons();
-    renderCareplanForActivePatient();
-
   }
 
   if (document.readyState === 'loading') {
@@ -387,3 +323,15 @@
     init();
   }
 })();
+
+
+  // Fallback: Wenn keine Patienten vorhanden
+  function ensurePatientFallback(select){
+    if (!select.options.length){
+      const opt = document.createElement("option");
+      opt.textContent = "Keine Patienten vorhanden";
+      opt.value = "";
+      select.appendChild(opt);
+      ensurePatientFallback(select);
+    }
+  }
