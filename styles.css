@@ -610,7 +610,7 @@ textarea.control:focus {
 
 .patient-row{
   display:grid;
-  grid-template-columns: minmax(360px, 2.2fr) 200px 1fr; /* Info | Zeit | Buttons */
+  grid-template-columns: minmax(360px, 2.2fr) 160px 130px 360px; /* Info | Zeit | Buttons */
   align-items:center;
   gap: 14px;
   padding: 12px 12px;
@@ -644,7 +644,7 @@ textarea.control:focus {
   width: auto;
   justify-self:end;
 }
-.patient-actions .btn{ flex: 0 0 auto; }
+.patient-actions .btn{ flex:1; }
 .btn.small{ height: 44px; }
 
 .secondary{
@@ -1663,13 +1663,8 @@ html.pp-modal-open body{overflow:hidden;}
 }
 
 
-/* ===== FIX: patient-row 3-Spalten Layout (Info | Zeit | Actions) ===== */
-.patient-row{
-  grid-template-columns: minmax(360px, 2.2fr) 200px 1fr !important;
+/* ===== FEINTUNING: Uhrzeit 20px nach links ===== */
+.patient-time{
+  transform: translateX(-20px) !important;
 }
-.patient-actions{
-  justify-self: end !important;
-}
-.patient-actions .btn{
-  flex: 0 0 auto !important;
-}
+
