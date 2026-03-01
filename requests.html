@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Nursy – Anfragen</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=20260227c" />
 </head>
 <body>
 <header class="topbar">
@@ -33,18 +33,18 @@
     </div>
 
     <div class="card">
-      <div style="display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;">
+      <div class="req-toolbar">
         <div>
           <div class="muted" id="reqCountLine">—</div>
         </div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <div class="req-toolbar__actions">
           <button class="btn btn--secondary" id="seedReq">Demo-Anfragen laden</button>
           <a class="btn btn--primary" href="patients.html">Zu meinen Patienten</a>
         </div>
       </div>
 
-      <div id="reqList" style="margin-top:14px;"></div>
-      <p class="muted" id="reqEmpty" style="margin-top:12px;" hidden>Keine offenen Anfragen.</p>
+      <div id="reqList" class="req-list"></div>
+      <p class="muted req-empty" id="reqEmpty" hidden>Keine offenen Anfragen.</p>
     </div>
   </section>
 </main>

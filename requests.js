@@ -106,23 +106,28 @@
 
   function card(req){
     const wrap = document.createElement("div");
-    wrap.className = "card";
-    wrap.style.marginTop = "12px";
+    wrap.className = "card req-card";
 
     const statusLabel = req.status === "open" ? "Offen" : (req.status === "accepted" ? "Aktiviert" : "Abgelehnt");
-    const statusStyle = req.status === "open" ? "color:#0f172a" : (req.status === "accepted" ? "color:#047857" : "color:#b91c1c");
+    const statusClass = req.status === "open" ? "req-badge--open" : (req.status === "accepted" ? "req-badge--accepted" : "req-badge--rejected");
 
     wrap.innerHTML = `
-      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start;">
-        <div style="min-width:240px;">
-          <div style="font-weight:800;font-size:16px;">${escapeHtml(req.name)}</div>
-          <div class="muted">${escapeHtml(req.address || "")}</div>
-          <div style="margin-top:10px;"><strong>Bedarf:</strong> ${escapeHtml(req.need || "—")}</div>
-          <div class="muted" style="margin-top:6px;">${escapeHtml(req.note || "")}</div>
+      <div class="req-item">
+        <div class="req-main">
+          <div class="req-title">${escapeHtml(req.name)}</div>
+          <div class="muted req-sub">${escapeHtml(req.address || "")}</div>
+
+          <div class="req-need"><strong>Bedarf:</strong> ${escapeHtml(req.need || "—")}</div>
+          <div class="muted req-note">${escapeHtml(req.note || "")}</div>
         </div>
-        <div style="text-align:right;min-width:200px;">
-          <div class="muted">Status: <span style="${statusStyle};font-weight:800;">${statusLabel}</span></div>
-          <div style="display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:12px;">
+
+        <div class="req-aside">
+          <div class="req-status">
+            <span class="muted">Status</span>
+            <span class="req-badge ${statusClass}">${statusLabel}</span>
+          </div>
+
+          <div class="req-actions">
             ${req.status === "open" ? `
               <button class="btn btn--primary" data-accept="${req.id}">Patient aktivieren</button>
               <button class="btn btn--secondary" data-reject="${req.id}">Ablehnen</button>
