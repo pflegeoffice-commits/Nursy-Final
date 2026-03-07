@@ -1,51 +1,161 @@
 <!doctype html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Nursy – Dokumentation</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=20260307doc1" />
 </head>
-<body>
+<body data-page="documentation">
 <header class="topbar">
-    <div class="container topbar__inner">
-      <a class="brand" href="index.html" aria-label="Nursy Startseite">
-        <span class="brand__dot" aria-hidden="true"></span>
-        <span class="brand__text">
-          <strong>Nursy</strong>
-          <span>Pflege mit Herz</span>
-        </span>
-      </a>
+  <div class="container topbar__inner">
+    <a class="brand" href="index.html" aria-label="Nursy Startseite">
+      <span class="brand__dot" aria-hidden="true"></span>
+      <span class="brand__text">
+        <strong>Nursy</strong>
+        <span>Pflege mit Herz</span>
+      </span>
+    </a>
 
-      <nav class="nav" aria-label="Hauptnavigation">
-        <a href="functions.html">Funktionen</a>
-        <a href="how.html">So funktioniert’s</a>
-        <a href="#login">Login</a>
-      </nav>
-    </div>
-  </header>
-<main class="container">
-  <section class="section">
-    <div class="section__head">
-      <h2>Dokumentation</h2>
-      <p class="muted">Durchführungsnachweis, Notizen, Übergaben und relevante Dokumente.</p>
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a href="dashboard-care.html">Dashboard</a>
+      <a href="patients.html">Meine Patienten</a>
+      <a href="pflegeplanung.html">Pflegeplanung</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container doc-page">
+  <section class="card doc-hero">
+    <div>
+      <h1 class="doc-title">Dokumentation</h1>
+      <p class="muted doc-sub" id="docActivePatientLine">Aktiver Patient: <strong>—</strong></p>
     </div>
 
-    <div class="card">
-      <p class="muted">Demo-Seite – Inhalt folgt im nächsten Schritt.</p>
-      <a class="control btn" href="dashboard-care.html">Zurück zum Dashboard</a>
+    <div class="doc-topbar">
+      <label class="field doc-field">
+        <span class="field__label">Patient auswählen</span>
+        <select class="control" id="docPatientSelect"></select>
+      </label>
+
+      <label class="field doc-field doc-field--date">
+        <span class="field__label">Datum</span>
+        <input class="control" id="docDate" type="date">
+      </label>
+
+      <label class="field doc-field doc-field--time">
+        <span class="field__label">Uhrzeit</span>
+        <input class="control" id="docTime" type="time">
+      </label>
     </div>
   </section>
-</main>
-<footer class="footer">
-    <div class="container footer__inner">
-      <span class="muted">© Nursy – Pflege mit Herz</span>
-      <div class="footer__links">
-        <a href="#">Impressum</a>
-        <a href="#">Datenschutz</a>
+
+  <section class="doc-grid">
+    <article class="card doc-card">
+      <div class="doc-card__head">
+        <h2>Vitalwerte</h2>
+        <button class="btn btn--primary doc-btn" id="saveVitals" type="button">Vitalwerte speichern</button>
       </div>
+
+      <div class="doc-vitals-grid">
+        <label class="field">
+          <span class="field__label">RR systolisch</span>
+          <input class="control" id="bpSys" type="number" placeholder="z. B. 130">
+        </label>
+        <label class="field">
+          <span class="field__label">RR diastolisch</span>
+          <input class="control" id="bpDia" type="number" placeholder="z. B. 80">
+        </label>
+        <label class="field">
+          <span class="field__label">Puls</span>
+          <input class="control" id="pulse" type="number" placeholder="z. B. 78">
+        </label>
+        <label class="field">
+          <span class="field__label">Temperatur</span>
+          <input class="control" id="temp" type="number" step="0.1" placeholder="z. B. 36.7">
+        </label>
+        <label class="field">
+          <span class="field__label">Blutzucker</span>
+          <input class="control" id="sugar" type="number" step="0.1" placeholder="z. B. 112">
+        </label>
+        <label class="field">
+          <span class="field__label">SpO₂</span>
+          <input class="control" id="spo2" type="number" placeholder="z. B. 97">
+        </label>
+        <label class="field">
+          <span class="field__label">Gewicht</span>
+          <input class="control" id="weight" type="number" step="0.1" placeholder="z. B. 72.4">
+        </label>
+      </div>
+
+      <div class="doc-chart-wrap">
+        <div class="doc-chart-head">
+          <h3>Blutdruck-Verlauf</h3>
+          <div class="doc-chart-legend">
+            <span><i class="legend-line legend-line--solid"></i> Systolisch</span>
+            <span><i class="legend-line legend-line--dashed"></i> Diastolisch</span>
+          </div>
+        </div>
+        <canvas id="bpChart" height="230"></canvas>
+      </div>
+    </article>
+
+    <article class="card doc-card">
+      <div class="doc-card__head">
+        <h2>Durchführungsnachweis</h2>
+        <button class="btn btn--primary doc-btn" id="saveTasks" type="button">Nachweis speichern</button>
+      </div>
+
+      <div class="doc-check-grid">
+        <label class="doc-check"><input type="checkbox" id="taskBasic"> <span>Grundpflege durchgeführt</span></label>
+        <label class="doc-check"><input type="checkbox" id="taskMobil"> <span>Mobilisation durchgeführt</span></label>
+        <label class="doc-check"><input type="checkbox" id="taskMeds"> <span>Medikation verabreicht</span></label>
+        <label class="doc-check"><input type="checkbox" id="taskWound"> <span>Wundversorgung erfolgt</span></label>
+        <label class="doc-check"><input type="checkbox" id="taskVitals"> <span>Vitalwerte kontrolliert</span></label>
+        <label class="doc-check"><input type="checkbox" id="taskPosition"> <span>Lagerung durchgeführt</span></label>
+      </div>
+
+      <label class="field">
+        <span class="field__label">Zusatz / Ergänzung</span>
+        <textarea class="control doc-textarea" id="tasksNote" placeholder="Kurze Ergänzung zum Durchführungsnachweis …"></textarea>
+      </label>
+    </article>
+
+    <article class="card doc-card">
+      <div class="doc-card__head">
+        <h2>Dokumentation</h2>
+        <button class="btn btn--primary doc-btn" id="saveDocText" type="button">Dokumentation speichern</button>
+      </div>
+
+      <label class="field">
+        <span class="field__label">Pflegebericht / Verlauf</span>
+        <textarea class="control doc-textarea doc-textarea--lg" id="docText" placeholder="Allgemeinzustand, Besonderheiten, Schmerzen, Ernährung, Ausscheidung, Kommunikation, Übergabe …"></textarea>
+      </label>
+    </article>
+
+    <article class="card doc-card">
+      <div class="doc-card__head">
+        <h2>Archiv</h2>
+        <button class="btn btn--ghost doc-btn" id="refreshArchive" type="button">Aktualisieren</button>
+      </div>
+
+      <div id="docArchive" class="doc-archive"></div>
+      <p class="muted" id="docArchiveEmpty">Noch keine Dokumentation für diesen Patienten vorhanden.</p>
+    </article>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <span class="muted">© Nursy – Pflege mit Herz</span>
+    <div class="footer__links">
+      <a href="#">Impressum</a>
+      <a href="#">Datenschutz</a>
     </div>
-  </footer>
+  </div>
+</footer>
+
 <script src="script.js"></script>
+<script src="documentation.js?v=20260307doc1"></script>
 </body>
 </html>
