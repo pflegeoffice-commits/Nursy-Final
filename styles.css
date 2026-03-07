@@ -1670,23 +1670,135 @@ html.pp-modal-open body{overflow:hidden;}
 
 
 
-/* === Anfrage Buttons Fix === */
-.req-actions{
+/* ===== Requests cards + buttons ===== */
+.req-toolbar{
   display:flex;
-  gap:12px;
-  justify-content:flex-end;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
   flex-wrap:wrap;
 }
+.req-toolbar__actions{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.req-list{
+  margin-top:14px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.req-empty{ margin-top:12px; }
 
-.req-actions .btn{
-  min-width:160px;
-  height:48px;
-  min-height:48px;
-  border-radius:999px;
-  padding:0 18px;
+.req-card{ padding:0; }
+.req-card__row{
+  padding:16px;
+  display:grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap:18px;
+  align-items:start;
+}
+.req-card__main{ min-width:0; }
+.req-card__name{
+  font-weight:800;
+  font-size:16px;
+}
+.req-card__address{ margin-top:2px; }
+.req-card__need{ margin-top:10px; }
+.req-card__note{ margin-top:6px; }
+
+.req-card__side{
+  width:340px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:14px;
+}
+.req-card__status{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:8px;
+}
+.req-status-badge{
   display:inline-flex;
   align-items:center;
   justify-content:center;
+  min-width:110px;
+  height:32px;
+  padding:0 12px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
   white-space:nowrap;
-  font-size:14px;
+}
+.req-status-badge--open{
+  background:rgba(15,35,75,.06);
+  color:#0f1a33;
+}
+.req-status-badge--accepted{
+  background:rgba(245,158,11,.12);
+  color:#92400e;
+}
+.req-status-badge--active{
+  background:rgba(16,185,129,.12);
+  color:#065f46;
+}
+.req-status-badge--rejected{
+  background:rgba(220,38,38,.12);
+  color:#b91c1c;
+}
+
+.req-card__actions{
+  width:100%;
+  display:flex;
+  justify-content:flex-end;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.req-btn,
+.req-toolbar__actions .btn{
+  min-width:160px !important;
+  height:48px !important;
+  min-height:48px !important;
+  padding:0 18px !important;
+  border-radius:999px !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  white-space:nowrap !important;
+  font-size:14px !important;
+  line-height:1 !important;
+  flex:0 0 auto !important;
+}
+
+@media (max-width: 900px){
+  .req-card__row{
+    grid-template-columns:1fr;
+  }
+  .req-card__side{
+    width:100%;
+    align-items:flex-start;
+  }
+  .req-card__status,
+  .req-card__actions{
+    justify-content:flex-start;
+  }
+}
+@media (max-width: 640px){
+  .req-card__actions,
+  .req-toolbar__actions{
+    width:100%;
+    flex-direction:column;
+    align-items:stretch;
+  }
+  .req-btn,
+  .req-toolbar__actions .btn{
+    width:100% !important;
+    min-width:0 !important;
+  }
 }
