@@ -1670,129 +1670,23 @@ html.pp-modal-open body{overflow:hidden;}
 
 
 
-/* ===== HARD FIX: Anfragen-Buttons sichtbar & passend ===== */
-.req-item{
-  display:grid !important;
-  grid-template-columns: 1fr 360px !important;
-  gap: 20px !important;
-  align-items:start !important;
-}
-
-.req-aside{
-  width: 360px !important;
-  display:flex !important;
-  flex-direction:column !important;
-  align-items:flex-end !important;
-  gap: 14px !important;
-}
-
-.req-status{
-  width: 100% !important;
-  display:flex !important;
-  justify-content:flex-end !important;
-  align-items:center !important;
-  gap: 8px !important;
-}
-
+/* === Anfrage Buttons Fix === */
 .req-actions{
-  width: 100% !important;
-  display:flex !important;
-  justify-content:flex-end !important;
-  align-items:center !important;
-  gap: 12px !important;
-  flex-wrap:wrap !important;
+  display:flex;
+  gap:12px;
+  justify-content:flex-end;
+  flex-wrap:wrap;
 }
 
-/* Alle Anfrage-Buttons klar sichtbar */
-.req-actions .btn,
-.req-toolbar__actions .btn,
-.req-actions button,
-.req-toolbar__actions button,
-.req-actions a,
-.req-toolbar__actions a{
-  -webkit-appearance: none !important;
-  appearance: none !important;
-  display:inline-flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  min-width: 156px !important;
-  height: 48px !important;
-  min-height: 48px !important;
-  padding: 0 18px !important;
-  border-radius: 999px !important;
-  font-size: 14px !important;
-  font-weight: 800 !important;
-  line-height: 1 !important;
-  white-space: nowrap !important;
-  text-decoration: none !important;
-  border: 1px solid rgba(15,47,106,.14) !important;
-  box-shadow: none !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-}
-
-/* Primärbutton */
-.req-actions .btn--primary,
-.req-toolbar__actions .btn--primary,
-.req-actions [data-accept],
-.req-actions [data-confirm]{
-  background: #0f2f6a !important;
-  color: #ffffff !important;
-}
-
-/* Sekundärbutton */
-.req-actions .btn--secondary,
-.req-toolbar__actions .btn--secondary,
-.req-actions [data-reject]{
-  background: rgba(15,47,106,.08) !important;
-  color: #0f2f6a !important;
-}
-
-/* Toolbar oben */
-.req-toolbar{
-  display:flex !important;
-  justify-content:space-between !important;
-  align-items:center !important;
-  gap: 18px !important;
-}
-
-.req-toolbar__actions{
-  display:flex !important;
-  align-items:center !important;
-  gap: 12px !important;
-  flex-wrap:wrap !important;
-}
-
-/* Mobile */
-@media (max-width: 980px){
-  .req-item{
-    grid-template-columns: 1fr !important;
-  }
-  .req-aside{
-    width: 100% !important;
-    align-items:flex-start !important;
-  }
-  .req-status,
-  .req-actions{
-    justify-content:flex-start !important;
-  }
-}
-
-@media (max-width: 640px){
-  .req-actions{
-    flex-direction:column !important;
-    align-items:stretch !important;
-  }
-  .req-actions .btn,
-  .req-toolbar__actions .btn,
-  .req-actions button,
-  .req-toolbar__actions button,
-  .req-actions a,
-  .req-toolbar__actions a{
-    width: 100% !important;
-    min-width: 0 !important;
-  }
-  .req-toolbar__actions{
-    width:100% !important;
-  }
+.req-actions .btn{
+  min-width:160px;
+  height:48px;
+  min-height:48px;
+  border-radius:999px;
+  padding:0 18px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  white-space:nowrap;
+  font-size:14px;
 }

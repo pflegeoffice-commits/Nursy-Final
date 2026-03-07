@@ -70,36 +70,27 @@
     const r = requests.find(x => x.id === reqId);
     if (!r) return;
 
-    // Nur Status auf accepted setzen (noch kein Patient)
+    // mark request accepted
     r.status = "accepted";
     saveRequests(requests);
-    render();
-  }
 
-  
-  function confirmRequest(reqId){
-    const requests = loadRequests();
-    const r = requests.find(x => x.id === reqId);
-    if (!r) return;
-
-    r.status = "active";
-    saveRequests(requests);
-
-    // Jetzt erst Patient erzeugen
+    // add or update patient
     const patients = loadPatients();
-    const existing = patients.find(p => p.requestId === r.id || (p.name === r.name && p.address === r.address));
+    const existing = patients.find(p => (p.requestId && p.requestId === r.id) || (p.name === r.name && p.address === r.address));
     const p = existing || {
-      id: "p" + Date.now().toString(16) + Math.random().toString(16).slice(2),
+      id: (existing && existing.id) || ("p" + Date.now().toString(16) + Math.random().toString(16).slice(2)),
       name: r.name,
       address: r.address,
       active: true,
       visits: [],
       requestId: r.id
     };
+
     p.active = true;
     if (!existing) patients.push(p);
     savePatients(patients);
 
+    // set active patient + go to patients
     try{ localStorage.setItem("nursy_active_patient_id", p.id); }catch(e){}
     window.location.href = "patients.html";
   }
@@ -118,8 +109,8 @@
     wrap.className = "card";
     wrap.style.marginTop = "12px";
 
-    const statusLabel = req.status === "open" ? "Offen" : (req.status === "accepted" ? "Angenommen" : (req.status === "active" ? "Aktiv" : "Abgelehnt"));
-    const statusStyle = req.status === "open" ? "color:#0f172a" : (req.status === "accepted" ? "color:#2563eb" : (req.status === "active" ? "color:#047857" : "color:#b91c1c"));
+    const statusLabel = req.status === "open" ? "Offen" : (req.status === "accepted" ? "Aktiviert" : "Abgelehnt");
+    const statusStyle = req.status === "open" ? "color:#0f172a" : (req.status === "accepted" ? "color:#047857" : "color:#b91c1c");
 
     wrap.innerHTML = `
       <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start;">
@@ -133,10 +124,8 @@
           <div class="muted">Status: <span style="${statusStyle};font-weight:800;">${statusLabel}</span></div>
           <div style="display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:12px;">
             ${req.status === "open" ? `
-              <button class="btn btn--primary" data-accept="${req.id}">Annehmen</button>
-              <button class="btn btn--secondary" data-reject="${req.id}">Ablehnen</button>
-            ` : req.status === "accepted" ? `
-              <button class="btn btn--primary" data-confirm="${req.id}">Einsatz bestätigen</button>
+              <button class="btn btn--primary" class="btn btn--primary" data-accept="${req.id}">Patient aktivieren</button>
+              <button class="btn btn--secondary" class="btn btn--secondary" data-reject="${req.id}">Ablehnen</button>
             ` : ``}
           </div>
         </div>
@@ -161,9 +150,9 @@
     if (!list) return;
 
     const requests = loadRequests();
-    const open = requests.filter(r => r.status === "open" || r.status === "accepted");
+    const open = requests.filter(r => r.status === "open");
 
-    if (line) line.textContent = `${open.length} offene/angenommene Anfrage(n) • ${requests.length} gesamt`;
+    if (line) line.textContent = `${open.length} offene Anfrage(n) • ${requests.length} gesamt`;
 
     list.innerHTML = "";
     if (!open.length){
@@ -175,10 +164,6 @@
     open.forEach(r => list.appendChild(card(r)));
 
     // wire buttons
-    list.querySelectorAll("[data-confirm]").forEach(btn => {
-      btn.addEventListener("click", () => confirmRequest(btn.getAttribute("data-confirm")));
-    });
-
     list.querySelectorAll("[data-accept]").forEach(btn => {
       btn.addEventListener("click", () => activateAsPatient(btn.getAttribute("data-accept")));
     });
