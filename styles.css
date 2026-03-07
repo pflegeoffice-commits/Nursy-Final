@@ -1663,28 +1663,78 @@ html.pp-modal-open body{overflow:hidden;}
 }
 
 
-/* ===== Anfragen – obere Leiste sauber ausrichten ===== */
-.req-toolbar{
-  display:flex !important;
-  justify-content: space-between !important;
+/* ===== FEINTUNING: Uhrzeit 20px nach links ===== */
+.patient-time{
+  transform: translateX(-20px) !important;
+}
+
+
+
+/* ===== FIX: Anfragen-Buttons passen sauber ===== */
+.req-item{
+  grid-template-columns: 1fr minmax(320px, 360px) !important;
+  align-items: start !important;
+}
+
+.req-aside{
+  width: 100% !important;
+  align-items: stretch !important;
+}
+
+.req-status{
+  justify-content: flex-end !important;
+}
+
+.req-actions{
+  width: 100% !important;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 12px !important;
+}
+
+.req-actions .btn,
+.req-toolbar__actions .btn{
+  width: 100% !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  border-radius: 999px !important;
+  padding: 0 16px !important;
+  display: inline-flex !important;
   align-items: center !important;
-  gap: 20px !important;
+  justify-content: center !important;
+  white-space: nowrap !important;
+  font-size: 14px !important;
+  line-height: 1 !important;
+}
+
+.req-toolbar{
+  align-items: center !important;
+  gap: 18px !important;
 }
 
 .req-toolbar__actions{
-  display:flex !important;
-  gap:16px !important;
-  align-items:center !important;
+  display: flex !important;
+  gap: 12px !important;
+  flex-wrap: wrap !important;
 }
 
-.req-toolbar__actions .btn{
-  border-radius:999px !important;
-  padding:6px 18px !important;
-  font-size:13px !important;
-  min-height:34px !important;
+@media (max-width: 900px){
+  .req-item{
+    grid-template-columns: 1fr !important;
+  }
+  .req-status{
+    justify-content: flex-start !important;
+  }
 }
 
-.req-count{
-  font-weight:600;
+@media (max-width: 640px){
+  .req-actions{
+    grid-template-columns: 1fr !important;
+  }
+  .req-toolbar__actions{
+    width: 100% !important;
+  }
+  .req-toolbar__actions .btn{
+    flex: 1 1 100% !important;
+  }
 }
-
